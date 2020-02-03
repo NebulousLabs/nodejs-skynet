@@ -1,0 +1,21 @@
+{
+  "name": "@nebulous/skynet",
+  "version": "0.0.5",
+  "description": "Skynet SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Decentralised",
+    "Cloud Storage",
+    "Sia"
+  ],
+  "author": "Peter-Jan Brone",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "form-data": "^3.0.0",
+    "fs": "0.0.1-security"
+  }
+}
