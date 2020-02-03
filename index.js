@@ -3,14 +3,14 @@ const FormData = require('form-data')
 const fs = require('fs')
 
 const DefaultUploadOptions = {
-    portalUrl: "https://siasky.net/",
+    portalUrl: "https://siasky.net",
     portalUploadPath: "/api/skyfile",
     portalFileFieldname: "file",
     customFilename: "",
 }
 
 const DefaultDownloadOptions = {
-    portalUrl: "https://siasky.net/"
+    portalUrl: "https://siasky.net"
 }
 
 function UploadFile(path, opts) {
@@ -19,12 +19,12 @@ function UploadFile(path, opts) {
     const formData = new FormData();
     formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
-    const url = `${trimTrailingSlash(opts.portalUrl)}/${opts.portalUploadPath}`
+    const url = `${trimTrailingSlash(opts.portalUrl)}${opts.portalUploadPath}`
 
     return new Promise((resolve, reject) => {
         axios.post(url, formData, { headers: formData.getHeaders() })
             .then(resp => {
-                resolve(resp.data.skylink)
+                resolve(`sia://${resp.data.skylink}`)
             }).catch(error => {
                 reject(error)
             })
@@ -32,7 +32,7 @@ function UploadFile(path, opts) {
 }
 
 function DownloadFile(path, skylink, opts) {
-    const url = `${trimTrailingSlash(opts.portalUrl)}/${skylink}`
+    const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`
 
     const writer = fs.createWriteStream(path)
 
@@ -47,6 +47,10 @@ function DownloadFile(path, skylink, opts) {
                 reject(error)
             })
     })
+}
+
+function trimSiaPrefix(str) {
+    return str.replace("sia://", "")
 }
 
 function trimTrailingSlash(str) {
