@@ -4,7 +4,7 @@ const fs = require('fs')
 
 const DefaultUploadOptions = {
     portalUrl: "https://siasky.net",
-    portalUploadPath: "/api/skyfile",
+    portalUploadPath: "/skynet/skyfile",
     portalFileFieldname: "file",
     customFilename: "",
 }
@@ -19,7 +19,8 @@ function UploadFile(path, opts) {
     const formData = new FormData();
     formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
-    const url = `${trimTrailingSlash(opts.portalUrl)}${opts.portalUploadPath}`
+    const uuid = generateUUID()
+    const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}/${uuid}`
 
     return new Promise((resolve, reject) => {
         axios.post(url, formData, { headers: formData.getHeaders() })
@@ -47,6 +48,15 @@ function DownloadFile(path, skylink, opts) {
                 reject(error)
             })
     })
+}
+
+function generateUUID() {
+    let uuid = ''
+    const cs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 16; i++) {
+        uuid += cs.charAt(Math.floor(Math.random() * cs.length));
+    }
+    return uuid;
 }
 
 function trimSiaPrefix(str) {
