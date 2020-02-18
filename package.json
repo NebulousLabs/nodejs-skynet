@@ -1,6 +1,6 @@
 {
   "name": "@nebulous/skynet",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Skynet SDK",
   "main": "index.js",
   "scripts": {
