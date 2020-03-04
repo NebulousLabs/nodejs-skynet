@@ -1,3 +1,4 @@
+const p = require('path')
 const axios = require('axios')
 const FormData = require('form-data')
 const fs = require('fs')
@@ -6,6 +7,7 @@ const DefaultUploadOptions = {
     portalUrl: "https://siasky.net",
     portalUploadPath: "/skynet/skyfile",
     portalFileFieldname: "file",
+    portalFilesFieldname: "files[]",
     customFilename: "",
 }
 
@@ -21,6 +23,30 @@ function UploadFile(path, opts) {
 
     const uuid = generateUUID()
     const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}/${uuid}`
+
+    return new Promise((resolve, reject) => {
+        axios.post(url, formData, { headers: formData.getHeaders() })
+            .then(resp => {
+                resolve(`sia://${resp.data.skylink}`)
+            }).catch(error => {
+                reject(error)
+            })
+    })
+}
+
+function UploadDirectory(path, opts) {
+    const stat = fs.statSync(path)
+    if (!stat.isDirectory()) {
+        throw new Error(`Given path is not a directory: ${path}`)
+    }
+
+    const formData = new FormData();
+    for (const file of walkDirectory(path)) {
+        formData.append(opts.portalFilesFieldname, fs.createReadStream(file), { filepath: file });
+    }
+
+    const uuid = generateUUID()
+    const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}/${uuid}?filename=${opts.customFilename || path}`
 
     return new Promise((resolve, reject) => {
         axios.post(url, formData, { headers: formData.getHeaders() })
@@ -50,6 +76,23 @@ function DownloadFile(path, skylink, opts) {
     })
 }
 
+function walkDirectory(path, out) {
+    let files = []
+    if (!fs.existsSync(path)) {
+        return files;
+    }
+
+    for (const subpath of fs.readdirSync(path)) {
+        const fullpath = p.join(path, subpath)
+        if (fs.statSync(fullpath).isDirectory()) {
+            files = files.concat(walkDirectory(fullpath, out))
+            continue
+        }
+        files.push(fullpath)
+    }
+    return files
+}
+
 function generateUUID() {
     let uuid = ''
     const cs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -71,5 +114,6 @@ module.exports = {
     DefaultUploadOptions: DefaultUploadOptions,
     DefaultDownloadOptions: DefaultDownloadOptions,
     UploadFile: UploadFile,
+    UploadDirectory: UploadDirectory,
     DownloadFile: DownloadFile,
 }
