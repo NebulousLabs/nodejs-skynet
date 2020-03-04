@@ -7,7 +7,7 @@ const DefaultUploadOptions = {
     portalUrl: "https://siasky.net",
     portalUploadPath: "/skynet/skyfile",
     portalFileFieldname: "file",
-    portalFilesFieldname: "files[]",
+    portalDirectoryFileFieldname: "files[]",
     customFilename: "",
 }
 
@@ -42,7 +42,7 @@ function UploadDirectory(path, opts) {
 
     const formData = new FormData();
     for (const file of walkDirectory(path)) {
-        formData.append(opts.portalFilesFieldname, fs.createReadStream(file), { filepath: file });
+        formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file });
     }
 
     const uuid = generateUUID()
