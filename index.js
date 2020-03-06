@@ -21,8 +21,7 @@ function UploadFile(path, opts) {
     const formData = new FormData();
     formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
-    const uuid = generateUUID()
-    const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}/${uuid}`
+    const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`
 
     return new Promise((resolve, reject) => {
         axios.post(url, formData, { headers: formData.getHeaders() })
@@ -45,8 +44,7 @@ function UploadDirectory(path, opts) {
         formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file });
     }
 
-    const uuid = generateUUID()
-    const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}/${uuid}?filename=${opts.customFilename || path}`
+    const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${opts.customFilename || path}`
 
     return new Promise((resolve, reject) => {
         axios.post(url, formData, { headers: formData.getHeaders() })
@@ -91,15 +89,6 @@ function walkDirectory(path, out) {
         files.push(fullpath)
     }
     return files
-}
-
-function generateUUID() {
-    let uuid = ''
-    const cs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 16; i++) {
-        uuid += cs.charAt(Math.floor(Math.random() * cs.length));
-    }
-    return uuid;
 }
 
 function trimSiaPrefix(str) {
