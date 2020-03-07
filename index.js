@@ -9,6 +9,7 @@ const DefaultUploadOptions = {
     portalFileFieldname: "file",
     portalDirectoryFileFieldname: "files[]",
     customFilename: "",
+    multiUrl: false,
 }
 
 const DefaultDownloadOptions = {
@@ -99,10 +100,17 @@ function trimTrailingSlash(str) {
     return str.replace(/\/$/, "");
 }
 
+function MultiUrl(skylink, portalUrl) {
+    const siaUrl = `sia://${skylink}`
+    const webUrl = `${trimTrailingSlash(portalUrl)}/${skylink}`
+    return { siaUrl, webUrl }
+}
+
 module.exports = {
     DefaultUploadOptions: DefaultUploadOptions,
     DefaultDownloadOptions: DefaultDownloadOptions,
     UploadFile: UploadFile,
     UploadDirectory: UploadDirectory,
     DownloadFile: DownloadFile,
+    MultiUrl: MultiUrl
 }

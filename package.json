@@ -12,6 +12,13 @@
     "Sia"
   ],
   "author": "Peter-Jan Brone",
+  "contributors": [
+    {
+      "name": "Kunal Kamble",
+      "email": "kunal@kunalkamble.com",
+      "url": "https://kunalkamble.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
