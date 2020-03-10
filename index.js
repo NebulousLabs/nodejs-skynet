@@ -1,4 +1,5 @@
 'use strict'
+
 const { DefaultUploadOptions, DefaultDownloadOptions } = require('./config')
 const { UploadFile, UploadDirectory } = require('./src/upload')
 const { DownloadFile } = require('./src/download')
