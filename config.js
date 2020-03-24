@@ -6,11 +6,11 @@ const config = {
     portalUploadPath: "/skynet/skyfile",
     portalFileFieldname: "file",
     portalDirectoryFileFieldname: "files[]",
-    customFilename: ""
+    customFilename: "",
   },
   DefaultDownloadOptions: {
-    portalUrl: "https://siasky.net"
-  }
+    portalUrl: "https://siasky.net",
+  },
 };
 
 module.exports = config;
