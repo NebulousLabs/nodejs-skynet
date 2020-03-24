@@ -9,5 +9,5 @@ module.exports = {
   DefaultDownloadOptions: DefaultDownloadOptions,
   UploadFile: UploadFile,
   UploadDirectory: UploadDirectory,
-  DownloadFile: DownloadFile
+  DownloadFile: DownloadFile,
 };

@@ -37,9 +37,9 @@ function UploadDirectory(path, opts) {
     formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file });
   }
 
-  const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(
-    opts.portalUploadPath
-  )}?filename=${opts.customFilename || path}`;
+  const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
+    opts.customFilename || path
+  }`;
 
   return new Promise((resolve, reject) => {
     axios
