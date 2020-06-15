@@ -2,8 +2,14 @@
 
 An SDK for integrating Skynet into Node.js applications.
 
-The library may be installed using `npm`:
+## Installing
 
-```shell
-npm install -g @nebulous/skynet
+Using `npm`:
+
+```sh
+npm install @nebulous/skynet
+```
+
+```sh
+yarn add @nebulous/skynet
 ```
