@@ -3,7 +3,7 @@
 const p = require("path");
 const fs = require("fs");
 
-function walkDirectory(path, out) {
+export function walkDirectory(path, out) {
   let files = [];
   if (!fs.existsSync(path)) {
     return files;
@@ -20,12 +20,10 @@ function walkDirectory(path, out) {
   return files;
 }
 
-function trimSiaPrefix(str) {
+export function trimSiaPrefix(str) {
   return str.replace("sia://", "");
 }
 
-function trimTrailingSlash(str) {
+export function trimTrailingSlash(str) {
   return str.replace(/\/$/, "");
 }
-
-module.exports = { walkDirectory, trimSiaPrefix, trimTrailingSlash };

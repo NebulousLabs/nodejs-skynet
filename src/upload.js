@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const { walkDirectory, trimTrailingSlash } = require("./utils");
 
-function UploadFile(path, opts) {
+export function UploadFile(path, opts) {
   const options = opts.customFilename ? { filename: opts.customFilename } : {};
 
   const formData = new FormData();
@@ -26,7 +26,7 @@ function UploadFile(path, opts) {
   });
 }
 
-function UploadDirectory(path, opts) {
+export function UploadDirectory(path, opts) {
   const stat = fs.statSync(path);
   if (!stat.isDirectory()) {
     throw new Error(`Given path is not a directory: ${path}`);
@@ -52,5 +52,3 @@ function UploadDirectory(path, opts) {
       });
   });
 }
-
-module.exports = { UploadFile, UploadDirectory };

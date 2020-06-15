@@ -1,14 +1,15 @@
-name: Skynet NodeJS SDK
+name: Pull Request
 
-on: [push]
+# Run on PRs.
+on: [pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [8.x, 10.x, 12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,3 +19,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn
       - run: yarn prettier --check "**/*.{js,jsx,ts,tsx,md}"
+      - name: Lint
+        run: yarn eslint .
+      - run: yarn test

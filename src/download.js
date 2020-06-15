@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const { trimTrailingSlash, trimSiaPrefix } = require("./utils");
 
-function DownloadFile(path, skylink, opts) {
+export function DownloadFile(path, skylink, opts) {
   const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;
 
   const writer = fs.createWriteStream(path);
@@ -23,5 +23,3 @@ function DownloadFile(path, skylink, opts) {
       });
   });
 }
-
-module.exports = { DownloadFile };

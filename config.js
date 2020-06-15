@@ -1,6 +1,6 @@
 "use strict";
 
-const config = {
+export const config = {
   DefaultUploadOptions: {
     portalUrl: "https://siasky.net",
     portalUploadPath: "/skynet/skyfile",
@@ -12,5 +12,3 @@ const config = {
     portalUrl: "https://siasky.net",
   },
 };
-
-module.exports = config;
