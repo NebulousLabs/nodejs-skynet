@@ -35,6 +35,7 @@ function UploadFile(path, opts = {}) {
   const options = opts.customFilename ? { filename: opts.customFilename } : {};
   formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
+  // Form the URL.
   const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
 
   return new Promise((resolve, reject) => {
@@ -52,6 +53,7 @@ function UploadFile(path, opts = {}) {
 function UploadDirectory(path, opts = {}) {
   opts = fillWithDefaultUploadOptions(opts);
 
+  // Check if there is a directory at given path.
   const stat = fs.statSync(path);
   if (!stat.isDirectory()) {
     throw new Error(`Given path is not a directory: ${path}`);
@@ -62,6 +64,7 @@ function UploadDirectory(path, opts = {}) {
     formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file });
   }
 
+  // Form the URL.
   const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
     opts.customFilename || path
   }`;
