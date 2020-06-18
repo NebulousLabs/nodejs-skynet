@@ -3,13 +3,12 @@ const { DownloadFile } = require("./download");
 const { UploadDirectory, UploadFile } = require("./upload");
 
 jest.mock("axios");
-jest.mock("fs");
 
 const portalUrl = "https://siasky.net";
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 
 describe("download", () => {
-  const filename = "test";
+  const filename = "testfile";
   const body = "asdf";
 
   beforeEach(() => {
