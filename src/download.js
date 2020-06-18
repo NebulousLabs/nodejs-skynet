@@ -5,7 +5,19 @@ const fs = require("fs");
 
 const { trimTrailingSlash, trimSiaPrefix } = require("./utils");
 
-export function DownloadFile(path, skylink, opts) {
+const DefaultDownloadOptions = fillWithDefaultDownloadOptions();
+
+function fillWithDefaultDownloadOptions(opts = {}) {
+  if (!("portalUrl" in opts)) {
+    opts.portalUrl = "https://siasky.net";
+  }
+
+  return opts;
+}
+
+function DownloadFile(path, skylink, opts) {
+  opts = fillWithDefaultDownloadOptions(opts);
+
   const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;
 
   const writer = fs.createWriteStream(path);
@@ -23,3 +35,5 @@ export function DownloadFile(path, skylink, opts) {
       });
   });
 }
+
+module.exports = { DefaultDownloadOptions, DownloadFile };

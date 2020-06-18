@@ -1,5 +1,6 @@
 const axios = require("axios");
-const upload = require("./upload");
+const { FormData } = require("form-data");
+const { UploadFile } = require("./upload");
 
 jest.mock("axios");
 
@@ -7,22 +8,20 @@ const portalUrl = "https://siasky.net";
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 
 describe("upload", () => {
-  const filename = "image.jpeg";
-  const blob = new Blob([], { type: "image/jpeg" });
-  const file = new File([blob], filename);
+  const filename = "testdata/test";
 
   beforeEach(() => {
     axios.post.mockResolvedValue({ data: { skylink } });
   });
 
   it("should send post request with FormData", () => {
-    upload(portalUrl, file);
+    UploadFile(filename);
 
     expect(axios.post).toHaveBeenCalledWith(`${portalUrl}/skynet/skyfile`, expect.any(FormData), undefined);
   });
 
   it("should send register onUploadProgress callback if defined", () => {
-    upload(portalUrl, file, { onUploadProgress: jest.fn() });
+    UploadFile(filename, { onUploadProgress: jest.fn() });
 
     expect(axios.post).toHaveBeenCalledWith(`${portalUrl}/skynet/skyfile`, expect.any(FormData), {
       onUploadProgress: expect.any(Function),
@@ -30,7 +29,7 @@ describe("upload", () => {
   });
 
   it("should return skylink on success", async () => {
-    const data = await upload(portalUrl, file);
+    const data = await UploadFile(filename);
 
     expect(data).toEqual({ skylink });
   });

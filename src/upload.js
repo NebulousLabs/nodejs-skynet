@@ -6,10 +6,33 @@ const fs = require("fs");
 
 const { walkDirectory, trimTrailingSlash } = require("./utils");
 
-export function UploadFile(path, opts) {
-  const options = opts.customFilename ? { filename: opts.customFilename } : {};
+const DefaultUploadOptions = fillWithDefaultUploadOptions();
+
+function fillWithDefaultUploadOptions(opts = {}) {
+  if (!("portalUrl" in opts)) {
+    opts.portalUrl = "https://siasky.net";
+  }
+  if (!("portalUploadPath" in opts)) {
+    opts.portalUploadPath = "/skynet/skyfile";
+  }
+  if (!("portalFileFieldname" in opts)) {
+    opts.portalFileFieldname = "file";
+  }
+  if (!("portalDirectoryFileFieldname" in opts)) {
+    opts.portalDirectoryFileFieldname = "files[]";
+  }
+  if (!("customFilename" in opts)) {
+    opts.customFilename = "";
+  }
+
+  return opts;
+}
+
+function UploadFile(path, opts = {}) {
+  opts = fillWithDefaultUploadOptions(opts);
 
   const formData = new FormData();
+  const options = opts.customFilename ? { filename: opts.customFilename } : {};
   formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
   const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
@@ -26,7 +49,9 @@ export function UploadFile(path, opts) {
   });
 }
 
-export function UploadDirectory(path, opts) {
+function UploadDirectory(path, opts = {}) {
+  opts = fillWithDefaultUploadOptions(opts);
+
   const stat = fs.statSync(path);
   if (!stat.isDirectory()) {
     throw new Error(`Given path is not a directory: ${path}`);
@@ -52,3 +77,5 @@ export function UploadDirectory(path, opts) {
       });
   });
 }
+
+module.exports = { DefaultUploadOptions, UploadFile, UploadDirectory };
