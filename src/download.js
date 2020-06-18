@@ -15,7 +15,7 @@ function fillWithDefaultDownloadOptions(opts = {}) {
   return opts;
 }
 
-function DownloadFile(path, skylink, opts) {
+function DownloadFile(path, skylink, opts = {}) {
   opts = fillWithDefaultDownloadOptions(opts);
 
   const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;

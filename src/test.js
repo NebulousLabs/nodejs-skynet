@@ -1,13 +1,37 @@
 const axios = require("axios");
-const FormData = require("form-data");
+const { DownloadFile } = require("./download");
 const { UploadDirectory, UploadFile } = require("./upload");
 
 jest.mock("axios");
+jest.mock("fs");
 
 const portalUrl = "https://siasky.net";
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 
-describe("upload", () => {
+describe("download", () => {
+  const filename = "test";
+  const body = "asdf";
+
+  beforeEach(() => {
+    axios.get.mockResolvedValue({ data: { body } });
+  });
+
+  it("should send get request with FormData", () => {
+    DownloadFile(filename, skylink);
+
+    expect(axios.get).toHaveBeenCalledWith(`${portalUrl}/${skylink}`, { responseType: "stream" });
+  });
+
+  it("should send custom options if defined", () => {
+    DownloadFile(filename, skylink, {
+      portalUrl: "localhost",
+    });
+
+    expect(axios.get).toHaveBeenCalledWith(`localhost/${skylink}`, { responseType: "stream" });
+  });
+});
+
+describe("uploadFile", () => {
   const filename = "testdata/file1.jpeg";
 
   beforeEach(() => {
