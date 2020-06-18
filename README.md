@@ -10,6 +10,8 @@ Using `npm`:
 npm install @nebulous/skynet
 ```
 
+Using `yarn`:
+
 ```sh
 yarn add @nebulous/skynet
 ```
