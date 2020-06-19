@@ -7,7 +7,7 @@ const portalUrl = "https://siasky.net";
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 
 describe("download", () => {
-  const filename = "testfile";
+  const dst_file = "./dst.txt";
   const body = "asdf";
 
   beforeEach(() => {
@@ -15,13 +15,13 @@ describe("download", () => {
   });
 
   it("should send get request to default portal", () => {
-    DownloadFile(filename, skylink);
+    DownloadFile(dst_file, skylink);
 
     expect(axios.get).toHaveBeenCalledWith(`${portalUrl}/${skylink}`, { responseType: "stream" });
   });
 
   it("should use custom options if defined", () => {
-    DownloadFile(filename, skylink, {
+    DownloadFile(dst_file, skylink, {
       portalUrl: "localhost",
     });
 

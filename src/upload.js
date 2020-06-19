@@ -4,7 +4,7 @@ const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
 
-const { walkDirectory, trimTrailingSlash } = require("./utils");
+const { walkDirectory, UriSkynetPrefix, trimTrailingSlash } = require("./utils");
 
 const DefaultUploadOptions = {
   portalUrl: "https://siasky.net",
@@ -28,7 +28,7 @@ function UploadFile(path, customOptions = {}) {
     axios
       .post(url, formData, { headers: formData.getHeaders() })
       .then((response) => {
-        resolve(`sia://${response.data.skylink}`);
+        resolve(`${UriSkynetPrefix}${response.data.skylink}`);
       })
       .catch((error) => {
         reject(error);
@@ -59,7 +59,7 @@ function UploadDirectory(path, customOptions = {}) {
     axios
       .post(url, formData, { headers: formData.getHeaders() })
       .then((response) => {
-        resolve(`sia://${response.data.skylink}`);
+        resolve(`${UriSkynetPrefix}${response.data.skylink}`);
       })
       .catch((error) => {
         reject(error);
