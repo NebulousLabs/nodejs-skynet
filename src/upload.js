@@ -6,30 +6,16 @@ const fs = require("fs");
 
 const { walkDirectory, trimTrailingSlash } = require("./utils");
 
-const DefaultUploadOptions = fillWithDefaultUploadOptions();
+const DefaultUploadOptions = {
+  portalUrl: "https://siasky.net",
+  portalUploadPath: "/skynet/skyfile",
+  portalFileFieldname: "file",
+  portalDirectoryFileFieldname: "files[]",
+  customFilename: "",
+};
 
-function fillWithDefaultUploadOptions(opts = {}) {
-  if (!("portalUrl" in opts)) {
-    opts.portalUrl = "https://siasky.net";
-  }
-  if (!("portalUploadPath" in opts)) {
-    opts.portalUploadPath = "/skynet/skyfile";
-  }
-  if (!("portalFileFieldname" in opts)) {
-    opts.portalFileFieldname = "file";
-  }
-  if (!("portalDirectoryFileFieldname" in opts)) {
-    opts.portalDirectoryFileFieldname = "files[]";
-  }
-  if (!("customFilename" in opts)) {
-    opts.customFilename = "";
-  }
-
-  return opts;
-}
-
-function UploadFile(path, opts = {}) {
-  opts = fillWithDefaultUploadOptions(opts);
+function UploadFile(path, customOptions = {}) {
+  const opts = { ...DefaultUploadOptions, ...customOptions };
 
   const formData = new FormData();
   const options = opts.customFilename ? { filename: opts.customFilename } : {};
@@ -50,8 +36,8 @@ function UploadFile(path, opts = {}) {
   });
 }
 
-function UploadDirectory(path, opts = {}) {
-  opts = fillWithDefaultUploadOptions(opts);
+function UploadDirectory(path, customOptions = {}) {
+  const opts = { ...DefaultUploadOptions, ...customOptions };
 
   // Check if there is a directory at given path.
   const stat = fs.statSync(path);

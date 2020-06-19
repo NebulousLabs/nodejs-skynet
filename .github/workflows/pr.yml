@@ -19,7 +19,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn
       - name: Prettier
-        run: yarn prettier --check "**/*.{js,jsx,ts,tsx,md}"
+        run: yarn prettier --check .
       - name: Lint
         run: yarn eslint .
       - run: yarn test

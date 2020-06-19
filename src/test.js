@@ -15,13 +15,13 @@ describe("download", () => {
     axios.get.mockResolvedValue({ data: { body } });
   });
 
-  it("should send get request with FormData", () => {
+  it("should send get request to default portal", () => {
     DownloadFile(filename, skylink);
 
     expect(axios.get).toHaveBeenCalledWith(`${portalUrl}/${skylink}`, { responseType: "stream" });
   });
 
-  it("should send custom options if defined", () => {
+  it("should use custom options if defined", () => {
     DownloadFile(filename, skylink, {
       portalUrl: "localhost",
     });
@@ -31,27 +31,27 @@ describe("download", () => {
 });
 
 describe("uploadFile", () => {
-  const filename = "testdata/file1.jpeg";
+  const filename = "testdata/file1.txt";
 
   beforeEach(() => {
     axios.post.mockResolvedValue({ data: { skylink } });
   });
 
-  it("should send post request with FormData", () => {
+  it("should send post request to default portal", () => {
     UploadFile(filename);
 
     expect(axios.post).toHaveBeenCalledWith(
       `${portalUrl}/skynet/skyfile`,
       expect.objectContaining({
         _streams: expect.arrayContaining([
-          expect.stringContaining(`Content-Disposition: form-data; name="file"; filename="file1.jpeg"`),
+          expect.stringContaining(`Content-Disposition: form-data; name="file"; filename="file1.txt"`),
         ]),
       }),
       { headers: expect.anything() }
     );
   });
 
-  it("should send custom options if defined", () => {
+  it("should use custom options if defined", () => {
     UploadFile(filename, {
       portalUrl: "localhost",
       portalUploadPath: "/skynet/file",
@@ -70,7 +70,7 @@ describe("uploadFile", () => {
     );
   });
 
-  it("should return sia url on success", async () => {
+  it("should return skylink on success", async () => {
     const data = await UploadFile(filename);
 
     expect(data).toEqual("sia://" + skylink);
@@ -79,13 +79,13 @@ describe("uploadFile", () => {
 
 describe("uploadDirectory", () => {
   const filename = "testdata";
-  const directory = ["testdata/file1.jpeg", "testdata/file2.jpeg", "testdata/dir1/file3.jpeg"];
+  const directory = ["testdata/file1.txt", "testdata/file2.txt", "testdata/dir1/file3.txt"];
 
   beforeEach(() => {
     axios.post.mockResolvedValue({ data: { skylink } });
   });
 
-  it("should send post request with FormData", () => {
+  it("should send post request to default portal", () => {
     UploadDirectory(filename);
 
     for (const file of directory) {
@@ -101,7 +101,7 @@ describe("uploadDirectory", () => {
     }
   });
 
-  it("should send custom options if defined", () => {
+  it("should use custom options if defined", () => {
     UploadDirectory(filename, {
       portalUrl: "localhost",
       portalUploadPath: "/skynet/file",

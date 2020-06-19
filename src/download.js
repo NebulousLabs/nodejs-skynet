@@ -5,18 +5,12 @@ const fs = require("fs");
 
 const { trimTrailingSlash, trimSiaPrefix } = require("./utils");
 
-const DefaultDownloadOptions = fillWithDefaultDownloadOptions();
+const DefaultDownloadOptions = {
+  portalUrl: "https://siasky.net",
+};
 
-function fillWithDefaultDownloadOptions(opts = {}) {
-  if (!("portalUrl" in opts)) {
-    opts.portalUrl = "https://siasky.net";
-  }
-
-  return opts;
-}
-
-function DownloadFile(path, skylink, opts = {}) {
-  opts = fillWithDefaultDownloadOptions(opts);
+function DownloadFile(path, skylink, customOptions = {}) {
+  const opts = { ...DefaultDownloadOptions, ...customOptions };
 
   const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;
 
