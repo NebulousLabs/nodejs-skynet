@@ -10,9 +10,7 @@ describe("download", () => {
   const dst_file = "./dst.txt";
   const body = "asdf";
 
-  beforeEach(() => {
-    axios.get.mockResolvedValue({ data: { body, pipe: function () {} } });
-  });
+  axios.get.mockResolvedValue({ data: { body, pipe: function () {} } });
 
   it("should send get request to default portal", () => {
     DownloadFile(dst_file, skylink);

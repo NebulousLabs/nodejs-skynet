@@ -11,9 +11,7 @@ const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 describe("uploadFile", () => {
   const filename = "testdata/file1.txt";
 
-  beforeEach(() => {
-    axios.post.mockResolvedValue({ data: { skylink } });
-  });
+  axios.post.mockResolvedValue({ data: { skylink } });
 
   it("should send post request to default portal", () => {
     UploadFile(filename);
@@ -59,9 +57,7 @@ describe("uploadDirectory", () => {
   const filename = "testdata";
   const directory = ["testdata/file1.txt", "testdata/file2.txt", "testdata/dir1/file3.txt"];
 
-  beforeEach(() => {
-    axios.post.mockResolvedValue({ data: { skylink } });
-  });
+  axios.post.mockResolvedValue({ data: { skylink } });
 
   it("should send post request to default portal", () => {
     UploadDirectory(filename);
