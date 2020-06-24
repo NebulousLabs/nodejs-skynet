@@ -7,6 +7,7 @@ const config = {
     portalFileFieldname: "file",
     portalDirectoryFileFieldname: "files[]",
     customFilename: "",
+    removeRootDir: false,
   },
   DefaultDownloadOptions: {
     portalUrl: "https://siasky.net",

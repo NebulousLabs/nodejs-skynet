@@ -3,6 +3,7 @@
 const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
+const p = require("path");
 
 const { walkDirectory, trimTrailingSlash } = require("./utils");
 
@@ -34,7 +35,9 @@ function UploadDirectory(path, opts) {
 
   const formData = new FormData();
   for (const file of walkDirectory(path)) {
-    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file });
+    let filepath = file;
+    if (opts.removeRootDir) filepath = file.replace(p.normalize(path), "");
+    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath });
   }
 
   const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
