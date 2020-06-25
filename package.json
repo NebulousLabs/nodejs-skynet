@@ -33,8 +33,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
-    "form-data": "^3.0.0"
+    "axios": "0.19.2",
+    "form-data": "3.0.0",
+    "tmp": "0.2.1"
   },
   "devDependencies": {
     "eslint": "^7.2.0",

@@ -9,7 +9,7 @@ const DefaultDownloadOptions = {
   portalUrl: "https://siasky.net",
 };
 
-function DownloadFile(path, skylink, customOptions = {}) {
+function downloadFile(path, skylink, customOptions = {}) {
   const opts = { ...DefaultDownloadOptions, ...customOptions };
 
   const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;
@@ -30,4 +30,4 @@ function DownloadFile(path, skylink, customOptions = {}) {
   });
 }
 
-module.exports = { DefaultDownloadOptions, DownloadFile };
+module.exports = { DefaultDownloadOptions, downloadFile };

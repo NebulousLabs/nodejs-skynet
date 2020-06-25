@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const { UploadDirectory, UploadFile } = require("./upload");
+const { uploadDirectory, uploadFile } = require("./upload");
 const { UriSkynetPrefix } = require("./utils");
 
 jest.mock("axios");
@@ -14,7 +14,7 @@ describe("uploadFile", () => {
   axios.post.mockResolvedValue({ data: { skylink } });
 
   it("should send post request to default portal", () => {
-    UploadFile(filename);
+    uploadFile(filename);
 
     expect(axios.post).toHaveBeenCalledWith(
       `${portalUrl}/skynet/skyfile`,
@@ -28,7 +28,7 @@ describe("uploadFile", () => {
   });
 
   it("should use custom options if defined", () => {
-    UploadFile(filename, {
+    uploadFile(filename, {
       portalUrl: "localhost",
       portalUploadPath: "/skynet/file",
       portalFileFieldname: "filetest",
@@ -47,7 +47,7 @@ describe("uploadFile", () => {
   });
 
   it("should return skylink on success", async () => {
-    const data = await UploadFile(filename);
+    const data = await uploadFile(filename);
 
     expect(data).toEqual(UriSkynetPrefix + skylink);
   });
@@ -60,7 +60,7 @@ describe("uploadDirectory", () => {
   axios.post.mockResolvedValue({ data: { skylink } });
 
   it("should send post request to default portal", () => {
-    UploadDirectory(filename);
+    uploadDirectory(filename);
 
     for (const file of directory) {
       expect(axios.post).toHaveBeenCalledWith(
@@ -76,7 +76,7 @@ describe("uploadDirectory", () => {
   });
 
   it("should use custom options if defined", () => {
-    UploadDirectory(filename, {
+    uploadDirectory(filename, {
       portalUrl: "localhost",
       portalUploadPath: "/skynet/file",
       portalDirectoryFileFieldname: "filetest",
@@ -97,7 +97,7 @@ describe("uploadDirectory", () => {
   });
 
   it("should return single skylink on success", async () => {
-    const data = await UploadDirectory(filename);
+    const data = await uploadDirectory(filename);
 
     expect(data).toEqual(UriSkynetPrefix + skylink);
   });

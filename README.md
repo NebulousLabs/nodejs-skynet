@@ -33,7 +33,7 @@ const fs = require("fs");
   const text = fs.readFileSync(src_file);
   console.log(`Uploading file ${src_file} containing data: '${text}'`);
 
-  const skylink = await skynet.UploadFile(src_file, skynet.DefaultUploadOptions);
+  const skylink = await skynet.uploadFile(src_file, skynet.DefaultUploadOptions);
   if (!skylink.includes(skynet.UriSkynetPrefix)) {
     console.log(`ERROR: invalid skylink returned: ${skylink}`);
     return;
@@ -46,7 +46,7 @@ const fs = require("fs");
 
   console.log(`Downloading to ${dst_file}`);
   const new_skylink = skylink.replace(skynet.UriSkynetPrefix, "");
-  await skynet.DownloadFile(dst_file, new_skylink, skynet.DefaultDownloadOptions);
+  await skynet.downloadFile(dst_file, new_skylink, skynet.DefaultDownloadOptions);
   const data = fs.readFileSync(dst_file);
   if (!data.equals(text)) {
     console.log(`ERROR: wrong data returned: ${data}`);
@@ -59,7 +59,7 @@ const fs = require("fs");
   const src_dir = "./src";
 
   console.log(`Uploading dir ${src_dir}`);
-  const dir_skylink = await skynet.UploadDirectory(src_dir);
+  const dir_skylink = await skynet.uploadDirectory(src_dir);
   if (!dir_skylink.includes(skynet.UriSkynetPrefix)) {
     console.log(`ERROR: invalid skylink returned: ${dir_skylink}`);
     return;

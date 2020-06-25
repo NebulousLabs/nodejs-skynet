@@ -14,7 +14,7 @@ const DefaultUploadOptions = {
   customFilename: "",
 };
 
-function UploadFile(path, customOptions = {}) {
+function uploadFile(path, customOptions = {}) {
   const opts = { ...DefaultUploadOptions, ...customOptions };
 
   const formData = new FormData();
@@ -36,7 +36,7 @@ function UploadFile(path, customOptions = {}) {
   });
 }
 
-function UploadDirectory(path, customOptions = {}) {
+function uploadDirectory(path, customOptions = {}) {
   const opts = { ...DefaultUploadOptions, ...customOptions };
 
   // Check if there is a directory at given path.
@@ -67,4 +67,4 @@ function UploadDirectory(path, customOptions = {}) {
   });
 }
 
-module.exports = { DefaultUploadOptions, UploadFile, UploadDirectory };
+module.exports = { DefaultUploadOptions, uploadFile, uploadDirectory };
