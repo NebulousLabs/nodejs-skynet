@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const { uploadDirectory, uploadFile } = require("./upload");
-const { UriSkynetPrefix } = require("./utils");
+const { uriSkynetPrefix } = require("./utils");
 
 jest.mock("axios");
 
@@ -49,7 +49,7 @@ describe("uploadFile", () => {
   it("should return skylink on success", async () => {
     const data = await uploadFile(filename);
 
-    expect(data).toEqual(UriSkynetPrefix + skylink);
+    expect(data).toEqual(uriSkynetPrefix + skylink);
   });
 });
 
@@ -99,6 +99,6 @@ describe("uploadDirectory", () => {
   it("should return single skylink on success", async () => {
     const data = await uploadDirectory(filename);
 
-    expect(data).toEqual(UriSkynetPrefix + skylink);
+    expect(data).toEqual(uriSkynetPrefix + skylink);
   });
 });

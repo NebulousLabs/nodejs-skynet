@@ -3,7 +3,7 @@
 const p = require("path");
 const fs = require("fs");
 
-const UriSkynetPrefix = "sia://";
+const uriSkynetPrefix = "sia://";
 
 function walkDirectory(path, out) {
   let files = [];
@@ -23,11 +23,11 @@ function walkDirectory(path, out) {
 }
 
 function trimSiaPrefix(str) {
-  return str.replace(UriSkynetPrefix, "");
+  return str.replace(uriSkynetPrefix, "");
 }
 
 function trimTrailingSlash(str) {
   return str.replace(/\/$/, "");
 }
 
-module.exports = { UriSkynetPrefix, walkDirectory, trimSiaPrefix, trimTrailingSlash };
+module.exports = { uriSkynetPrefix, walkDirectory, trimSiaPrefix, trimTrailingSlash };

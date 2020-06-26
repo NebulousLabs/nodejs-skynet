@@ -4,9 +4,9 @@ const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
 
-const { walkDirectory, UriSkynetPrefix, trimTrailingSlash } = require("./utils");
+const { walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
 
-const DefaultUploadOptions = {
+const defaultUploadOptions = {
   portalUrl: "https://siasky.net",
   portalUploadPath: "/skynet/skyfile",
   portalFileFieldname: "file",
@@ -15,7 +15,7 @@ const DefaultUploadOptions = {
 };
 
 function uploadFile(path, customOptions = {}) {
-  const opts = { ...DefaultUploadOptions, ...customOptions };
+  const opts = { ...defaultUploadOptions, ...customOptions };
 
   const formData = new FormData();
   const options = opts.customFilename ? { filename: opts.customFilename } : {};
@@ -28,7 +28,7 @@ function uploadFile(path, customOptions = {}) {
     axios
       .post(url, formData, { headers: formData.getHeaders() })
       .then((response) => {
-        resolve(`${UriSkynetPrefix}${response.data.skylink}`);
+        resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
       .catch((error) => {
         reject(error);
@@ -37,7 +37,7 @@ function uploadFile(path, customOptions = {}) {
 }
 
 function uploadDirectory(path, customOptions = {}) {
-  const opts = { ...DefaultUploadOptions, ...customOptions };
+  const opts = { ...defaultUploadOptions, ...customOptions };
 
   // Check if there is a directory at given path.
   const stat = fs.statSync(path);
@@ -59,7 +59,7 @@ function uploadDirectory(path, customOptions = {}) {
     axios
       .post(url, formData, { headers: formData.getHeaders() })
       .then((response) => {
-        resolve(`${UriSkynetPrefix}${response.data.skylink}`);
+        resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
       .catch((error) => {
         reject(error);
@@ -67,4 +67,4 @@ function uploadDirectory(path, customOptions = {}) {
   });
 }
 
-module.exports = { DefaultUploadOptions, uploadFile, uploadDirectory };
+module.exports = { defaultUploadOptions, uploadFile, uploadDirectory };
