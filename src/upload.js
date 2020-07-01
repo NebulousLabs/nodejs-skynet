@@ -37,7 +37,7 @@ function UploadDirectory(path, opts) {
   path = p.normalize(path);
   for (const file of walkDirectory(path)) {
     let filepath = file;
-    if (opts.removeRootDir) filepath = file.replace(path, "");
+    if (opts.removeBaseDir) filepath = file.replace(path, "");
     formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath });
   }
 
