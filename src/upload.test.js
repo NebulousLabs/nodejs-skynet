@@ -57,7 +57,7 @@ describe("uploadFile", () => {
 
 describe("uploadDirectory", () => {
   const filename = "testdata";
-  const directory = ["testdata/file1.txt", "testdata/file2.txt", "testdata/dir1/file3.txt"];
+  const directory = ["file1.txt", "file2.txt", "dir1/file3.txt"];
 
   beforeEach(() => {
     axios.post.mockResolvedValue({ data: { skylink } });
