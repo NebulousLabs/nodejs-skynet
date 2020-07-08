@@ -3,6 +3,7 @@
 const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
+const p = require("path");
 
 const { walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
 
@@ -46,8 +47,15 @@ function uploadDirectory(path, customOptions = {}) {
   }
 
   const formData = new FormData();
+  path = p.normalize(path);
+  var basepath = path;
+  if (basepath != "/") {
+    basepath += "/";
+  }
   for (const file of walkDirectory(path)) {
-    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file });
+    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), {
+      filepath: file.replace(basepath, ""),
+    });
   }
 
   // Form the URL.
