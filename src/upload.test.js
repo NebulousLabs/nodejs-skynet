@@ -11,7 +11,9 @@ const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 describe("uploadFile", () => {
   const filename = "testdata/file1.txt";
 
-  axios.post.mockResolvedValue({ data: { skylink } });
+  beforeEach(() => {
+    axios.post.mockResolvedValue({ data: { skylink } });
+  });
 
   it("should send post request to default portal", () => {
     uploadFile(filename);
@@ -49,7 +51,7 @@ describe("uploadFile", () => {
   it("should return skylink on success", async () => {
     const data = await uploadFile(filename);
 
-    expect(data).toEqual(uriSkynetPrefix + skylink);
+    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
 });
 
@@ -57,7 +59,9 @@ describe("uploadDirectory", () => {
   const filename = "testdata";
   const directory = ["testdata/file1.txt", "testdata/file2.txt", "testdata/dir1/file3.txt"];
 
-  axios.post.mockResolvedValue({ data: { skylink } });
+  beforeEach(() => {
+    axios.post.mockResolvedValue({ data: { skylink } });
+  });
 
   it("should send post request to default portal", () => {
     uploadDirectory(filename);
@@ -99,6 +103,6 @@ describe("uploadDirectory", () => {
   it("should return single skylink on success", async () => {
     const data = await uploadDirectory(filename);
 
-    expect(data).toEqual(uriSkynetPrefix + skylink);
+    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
 });

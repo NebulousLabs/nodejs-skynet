@@ -11,7 +11,9 @@ const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
 describe("download", () => {
   const body = "asdf";
 
-  axios.get.mockResolvedValue({ data: { body, pipe: function () {} } });
+  beforeEach(() => {
+    axios.get.mockResolvedValue({ data: { body, pipe: function () {} } });
+  });
 
   it("should send get request to default portal", () => {
     const tmpFile = tmp.fileSync();
