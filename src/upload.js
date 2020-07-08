@@ -5,21 +5,31 @@ const FormData = require("form-data");
 const fs = require("fs");
 const p = require("path");
 
-const { walkDirectory, trimTrailingSlash } = require("./utils");
+const { walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
 
-function UploadFile(path, opts) {
-  const options = opts.customFilename ? { filename: opts.customFilename } : {};
+const defaultUploadOptions = {
+  portalUrl: "https://siasky.net",
+  portalUploadPath: "/skynet/skyfile",
+  portalFileFieldname: "file",
+  portalDirectoryFileFieldname: "files[]",
+  customFilename: "",
+};
+
+function uploadFile(path, customOptions = {}) {
+  const opts = { ...defaultUploadOptions, ...customOptions };
 
   const formData = new FormData();
+  const options = opts.customFilename ? { filename: opts.customFilename } : {};
   formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
+  // Form the URL.
   const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
 
   return new Promise((resolve, reject) => {
     axios
       .post(url, formData, { headers: formData.getHeaders() })
-      .then((resp) => {
-        resolve(`sia://${resp.data.skylink}`);
+      .then((response) => {
+        resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
       .catch((error) => {
         reject(error);
@@ -27,7 +37,10 @@ function UploadFile(path, opts) {
   });
 }
 
-function UploadDirectory(path, opts) {
+function uploadDirectory(path, customOptions = {}) {
+  const opts = { ...defaultUploadOptions, ...customOptions };
+
+  // Check if there is a directory at given path.
   const stat = fs.statSync(path);
   if (!stat.isDirectory()) {
     throw new Error(`Given path is not a directory: ${path}`);
@@ -39,6 +52,7 @@ function UploadDirectory(path, opts) {
     formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: file.replace(path, "") });
   }
 
+  // Form the URL.
   const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
     opts.customFilename || path
   }`;
@@ -46,8 +60,8 @@ function UploadDirectory(path, opts) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, formData, { headers: formData.getHeaders() })
-      .then((resp) => {
-        resolve(`sia://${resp.data.skylink}`);
+      .then((response) => {
+        resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
       .catch((error) => {
         reject(error);
@@ -55,4 +69,4 @@ function UploadDirectory(path, opts) {
   });
 }
 
-module.exports = { UploadFile, UploadDirectory };
+module.exports = { defaultUploadOptions, uploadFile, uploadDirectory };

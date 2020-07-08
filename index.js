@@ -1,13 +1,14 @@
 "use strict";
 
-const { DefaultUploadOptions, DefaultDownloadOptions } = require("./config");
-const { UploadFile, UploadDirectory } = require("./src/upload");
-const { DownloadFile } = require("./src/download");
+const { defaultUploadOptions, uploadFile, uploadDirectory } = require("./src/upload");
+const { defaultDownloadOptions, downloadFile } = require("./src/download");
+const { uriSkynetPrefix } = require("./src/utils");
 
 module.exports = {
-  DefaultUploadOptions: DefaultUploadOptions,
-  DefaultDownloadOptions: DefaultDownloadOptions,
-  UploadFile: UploadFile,
-  UploadDirectory: UploadDirectory,
-  DownloadFile: DownloadFile,
+  defaultDownloadOptions,
+  defaultUploadOptions,
+  downloadFile,
+  uploadDirectory,
+  uploadFile,
+  uriSkynetPrefix,
 };
