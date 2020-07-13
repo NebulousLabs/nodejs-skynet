@@ -48,10 +48,12 @@ function uploadDirectory(path, customOptions = {}) {
 
   const formData = new FormData();
   path = p.normalize(path);
-  var basepath = path;
+  let basepath = path;
   if (basepath != "/") {
     basepath += "/";
   }
+  basepath = p.normalize(basepath);
+
   for (const file of walkDirectory(path)) {
     formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), {
       filepath: file.replace(basepath, ""),
