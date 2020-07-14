@@ -1,7 +1,7 @@
 const axios = require("axios");
 const tmp = require("tmp");
 
-const { downloadFile } = require("./download");
+const { downloadFile } = require("../index");
 
 jest.mock("axios");
 

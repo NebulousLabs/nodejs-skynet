@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-const { uploadDirectory, uploadFile } = require("./upload");
-const { uriSkynetPrefix } = require("./utils");
+const { uploadDirectory, uploadFile } = require("../index");
+const { uriSkynetPrefix } = require("../index");
 
 jest.mock("axios");
 
