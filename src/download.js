@@ -3,10 +3,11 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const { trimTrailingSlash, trimSiaPrefix } = require("./utils");
+const { defaultOptions, trimTrailingSlash, trimSiaPrefix } = require("./utils");
 
 const defaultDownloadOptions = {
-  portalUrl: "https://siasky.net",
+  ...defaultOptions,
+  endpointPath: "/",
 };
 
 function downloadFile(path, skylink, customOptions = {}) {

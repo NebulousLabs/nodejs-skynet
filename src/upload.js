@@ -5,14 +5,16 @@ const FormData = require("form-data");
 const fs = require("fs");
 const p = require("path");
 
-const { walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
+const { defaultOptions, walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
 
 const defaultUploadOptions = {
-  portalUrl: "https://siasky.net",
+  ...defaultOptions,
   portalUploadPath: "/skynet/skyfile",
   portalFileFieldname: "file",
   portalDirectoryFileFieldname: "files[]",
   customFilename: "",
+  // TODO:
+  // customDirname: "",
 };
 
 function uploadFile(path, customOptions = {}) {

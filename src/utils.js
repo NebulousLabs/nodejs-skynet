@@ -3,7 +3,16 @@
 const p = require("path");
 const fs = require("fs");
 
+const defaultPortalUrl = "https://siasky.net";
+
 const uriSkynetPrefix = "sia://";
+
+const defaultOptions = {
+  portalUrl: defaultPortalUrl,
+  endpointPath: "",
+  // TODO:
+  // customUserAgent: "",
+};
 
 function walkDirectory(path, out) {
   let files = [];
@@ -30,4 +39,4 @@ function trimTrailingSlash(str) {
   return str.replace(/\/$/, "");
 }
 
-module.exports = { uriSkynetPrefix, walkDirectory, trimSiaPrefix, trimTrailingSlash };
+module.exports = { defaultOptions, defaultPortalUrl, uriSkynetPrefix, walkDirectory, trimSiaPrefix, trimTrailingSlash };

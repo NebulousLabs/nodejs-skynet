@@ -1,14 +1,26 @@
 "use strict";
 
-const { defaultUploadOptions, uploadFile, uploadDirectory } = require("./src/upload");
 const { defaultDownloadOptions, downloadFile } = require("./src/download");
-const { uriSkynetPrefix } = require("./src/utils");
+const { defaultUploadOptions, uploadFile, uploadDirectory } = require("./src/upload");
+const { defaultOptions, defaultPortalUrl, uriSkynetPrefix } = require("./src/utils");
 
 module.exports = {
+  /* TODO: Blocklist */
+
   defaultDownloadOptions,
-  defaultUploadOptions,
   downloadFile,
+
+  /* TODO: Encryption */
+
+  /* TODO: Portals */
+
+  /* TODO: Stats */
+
+  defaultUploadOptions,
   uploadDirectory,
   uploadFile,
+
+  defaultOptions,
+  defaultPortalUrl,
   uriSkynetPrefix,
 };
