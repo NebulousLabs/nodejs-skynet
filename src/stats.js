@@ -11,6 +11,5 @@ function getStats(customOptions = {}) {
 }
 
 module.exports = {
-  defaultGetStatsOptions,
   getStats,
 };

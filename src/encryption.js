@@ -49,16 +49,9 @@ function getSkykeys(customOptions = {}) {
 }
 
 module.exports = {
-  defaultAddSkykeyOptions,
   addSkykey,
-
-  defaultCreateSkykeyOptions,
   createSkykey,
-
-  defaultGetSkykeyOptions,
   getSkykeyById,
   getSkykeyByName,
-
-  defaultGetSkykeysOptions,
   getSkykeys,
 };

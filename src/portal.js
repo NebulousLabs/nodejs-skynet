@@ -19,9 +19,6 @@ function updatePortals(customOptions = {}) {
 }
 
 module.exports = {
-  defaultGetPortalsOptions,
   getPortals,
-
-  defaultUpdatePortalsOptions,
   updatePortals,
 };

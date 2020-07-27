@@ -19,9 +19,6 @@ function updateBlocklist(customOptions = {}) {
 }
 
 module.exports = {
-  defaultGetBlocklistOptions,
   getBlocklist,
-
-  defaultUpdateBlocklistOptions,
   updateBlocklist,
 };

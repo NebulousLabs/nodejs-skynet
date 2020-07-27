@@ -31,4 +31,4 @@ function downloadFile(path, skylink, customOptions = {}) {
   });
 }
 
-module.exports = { defaultDownloadOptions, downloadFile };
+module.exports = { downloadFile };

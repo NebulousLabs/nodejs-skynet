@@ -79,4 +79,4 @@ function uploadDirectory(path, customOptions = {}) {
   });
 }
 
-module.exports = { defaultUploadOptions, uploadFile, uploadDirectory };
+module.exports = { uploadFile, uploadDirectory };

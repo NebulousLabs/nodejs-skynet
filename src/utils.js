@@ -11,6 +11,7 @@ const defaultOptions = {
   portalUrl: defaultPortalUrl,
   endpointPath: "",
   // TODO:
+  // apiKey: "",
   // customUserAgent: "",
 };
 
