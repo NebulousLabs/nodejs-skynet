@@ -13,6 +13,7 @@ const defaultUploadOptions = {
   portalFileFieldname: "file",
   portalDirectoryFileFieldname: "files[]",
   customFilename: "",
+  dryRun: false,
 };
 
 function uploadFile(path, customOptions = {}) {
@@ -23,7 +24,9 @@ function uploadFile(path, customOptions = {}) {
   formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
   // Form the URL.
-  const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
+  let url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
+
+  if (opts.dryRun) url += "?dryrun=true";
 
   return new Promise((resolve, reject) => {
     axios
@@ -61,9 +64,11 @@ function uploadDirectory(path, customOptions = {}) {
   }
 
   // Form the URL.
-  const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
+  let url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
     opts.customFilename || path
   }`;
+
+  if (opts.dryRun) url += "&dryrun=true";
 
   return new Promise((resolve, reject) => {
     axios

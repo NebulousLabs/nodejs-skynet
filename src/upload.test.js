@@ -35,10 +35,11 @@ describe("uploadFile", () => {
       portalUploadPath: "/skynet/file",
       portalFileFieldname: "filetest",
       customFilename: "test.jpg",
+      dryRun: true,
     });
 
     expect(axios.post).toHaveBeenCalledWith(
-      `localhost/skynet/file`,
+      `localhost/skynet/file?dryrun=true`,
       expect.objectContaining({
         _streams: expect.arrayContaining([
           expect.stringContaining('Content-Disposition: form-data; name="filetest"; filename="test.jpg"'),
@@ -50,6 +51,12 @@ describe("uploadFile", () => {
 
   it("should return skylink on success", async () => {
     const data = await uploadFile(filename);
+
+    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
+  });
+
+  it("should return skylink on success with dryRun", async () => {
+    const data = await uploadFile(filename, { dryRun: true });
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
@@ -85,11 +92,12 @@ describe("uploadDirectory", () => {
       portalUploadPath: "/skynet/file",
       portalDirectoryFileFieldname: "filetest",
       customFilename: "testpath",
+      dryRun: true,
     });
 
     for (const file of directory) {
       expect(axios.post).toHaveBeenCalledWith(
-        `localhost/skynet/file?filename=testpath`,
+        `localhost/skynet/file?filename=testpath&dryrun=true`,
         expect.objectContaining({
           _streams: expect.arrayContaining([
             expect.stringContaining(`Content-Disposition: form-data; name="filetest"; filename="${file}"`),
@@ -102,6 +110,12 @@ describe("uploadDirectory", () => {
 
   it("should return single skylink on success", async () => {
     const data = await uploadDirectory(filename);
+
+    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
+  });
+
+  it("should return single skylink on success with dryRun", async () => {
+    const data = await uploadDirectory(filename, { dryRun: true });
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
