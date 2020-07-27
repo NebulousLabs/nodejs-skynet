@@ -31,14 +31,14 @@ describe("uploadFile", () => {
 
   it("should use custom options if defined", () => {
     uploadFile(filename, {
-      portalUrl: "localhost",
-      portalUploadPath: "/skynet/file",
+      portalUrl: "https://localhost",
+      endpointPath: "/skynet/file",
       portalFileFieldname: "filetest",
       customFilename: "test.jpg",
     });
 
     expect(axios.post).toHaveBeenCalledWith(
-      `localhost/skynet/file`,
+      `https://localhost/skynet/file`,
       expect.objectContaining({
         _streams: expect.arrayContaining([
           expect.stringContaining('Content-Disposition: form-data; name="filetest"; filename="test.jpg"'),
@@ -81,15 +81,15 @@ describe("uploadDirectory", () => {
 
   it("should use custom options if defined", () => {
     uploadDirectory(filename, {
-      portalUrl: "localhost",
-      portalUploadPath: "/skynet/file",
+      portalUrl: "http://localhost",
+      endpointPath: "/skynet/file",
       portalDirectoryFileFieldname: "filetest",
       customFilename: "testpath",
     });
 
     for (const file of directory) {
       expect(axios.post).toHaveBeenCalledWith(
-        `localhost/skynet/file?filename=testpath`,
+        `http://localhost/skynet/file?filename=testpath`,
         expect.objectContaining({
           _streams: expect.arrayContaining([
             expect.stringContaining(`Content-Disposition: form-data; name="filetest"; filename="${file}"`),

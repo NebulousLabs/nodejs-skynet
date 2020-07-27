@@ -7,13 +7,23 @@ const defaultPortalUrl = "https://siasky.net";
 
 const uriSkynetPrefix = "sia://";
 
-const defaultOptions = {
-  portalUrl: defaultPortalUrl,
-  endpointPath: "",
-  // TODO:
-  // apiKey: "",
-  // customUserAgent: "",
-};
+function defaultOptions(endpointPath) {
+  return {
+    portalUrl: defaultPortalUrl,
+    endpointPath: endpointPath,
+    // TODO:
+    // apiKey: "",
+    // customUserAgent: "",
+  };
+}
+
+function makeUrl(portalUrl, pathname, query = {}) {
+  const url = new URL(portalUrl);
+
+  url.pathname = pathname;
+  url.search = new URLSearchParams(query);
+  return url.toString();
+}
 
 function walkDirectory(path, out) {
   let files = [];
@@ -36,8 +46,11 @@ function trimSiaPrefix(str) {
   return str.replace(uriSkynetPrefix, "");
 }
 
-function trimTrailingSlash(str) {
-  return str.replace(/\/$/, "");
-}
-
-module.exports = { defaultOptions, defaultPortalUrl, uriSkynetPrefix, walkDirectory, trimSiaPrefix, trimTrailingSlash };
+module.exports = {
+  defaultOptions,
+  defaultPortalUrl,
+  makeUrl,
+  uriSkynetPrefix,
+  walkDirectory,
+  trimSiaPrefix,
+};

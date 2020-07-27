@@ -5,11 +5,10 @@ const FormData = require("form-data");
 const fs = require("fs");
 const p = require("path");
 
-const { defaultOptions, walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
+const { defaultOptions, makeUrl, walkDirectory, uriSkynetPrefix } = require("./utils");
 
 const defaultUploadOptions = {
-  ...defaultOptions,
-  portalUploadPath: "/skynet/skyfile",
+  ...defaultOptions("/skynet/skyfile"),
   portalFileFieldname: "file",
   portalDirectoryFileFieldname: "files[]",
   customFilename: "",
@@ -25,7 +24,7 @@ function uploadFile(path, customOptions = {}) {
   formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
   // Form the URL.
-  const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
+  const url = makeUrl(opts.portalUrl, opts.endpointPath);
 
   return new Promise((resolve, reject) => {
     axios
@@ -63,9 +62,7 @@ function uploadDirectory(path, customOptions = {}) {
   }
 
   // Form the URL.
-  const url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
-    opts.customFilename || path
-  }`;
+  const url = makeUrl(opts.portalUrl, opts.endpointPath, { filename: opts.customFilename || path });
 
   return new Promise((resolve, reject) => {
     axios

@@ -3,17 +3,18 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const { defaultOptions, trimTrailingSlash, trimSiaPrefix } = require("./utils");
+const { defaultOptions, makeUrl, trimSiaPrefix } = require("./utils");
 
 const defaultDownloadOptions = {
-  ...defaultOptions,
-  endpointPath: "/",
+  ...defaultOptions("/"),
 };
 
 function downloadFile(path, skylink, customOptions = {}) {
   const opts = { ...defaultDownloadOptions, ...customOptions };
 
-  const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;
+  skylink = trimSiaPrefix(skylink);
+  let url = makeUrl(opts.portalUrl, opts.endpointPath);
+  url = new URL(skylink, url).toString();
 
   const writer = fs.createWriteStream(path);
 
