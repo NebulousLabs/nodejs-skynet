@@ -3,19 +3,19 @@
 const { defaultOptions } = require("./utils");
 
 const defaultAddSkykeyOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/addskykey"),
 };
 
 const defaultCreateSkykeyOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/createskykey"),
 };
 
 const defaultGetSkykeyOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/skykey"),
 };
 
 const defaultGetSkykeysOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/skykeys"),
 };
 
 function addSkykey(skykey, customOptions = {}) {

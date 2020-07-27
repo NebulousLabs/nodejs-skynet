@@ -3,11 +3,13 @@
 const { defaultOptions } = require("./utils");
 
 const defaultPinOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/pin"),
 };
 
 const defaultUnpinOptions = {
-  ...defaultOptions,
+  ...defaultOptions(""),
+  endpointPathUnpinDir: "/renter/dir",
+  endpointPathUnpinFile: "/renter/delete",
 };
 
 function pin(skylink, destSiaPath, customOptions = {}) {

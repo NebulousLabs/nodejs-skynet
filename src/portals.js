@@ -3,11 +3,11 @@
 const { defaultOptions } = require("./utils");
 
 const defaultGetPortalsOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/portals"),
 };
 
 const defaultUpdatePortalsOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/portals"),
 };
 
 function getPortals(customOptions = {}) {

@@ -3,7 +3,9 @@
 const { defaultOptions } = require("./utils");
 
 const defaultLsOptions = {
-  ...defaultOptions,
+  ...defaultOptions(""),
+  endpointPathLsDir: "/renter/dir",
+  endpointPathLsFile: "/renter/file",
 };
 
 function ls(customOptions = {}) {

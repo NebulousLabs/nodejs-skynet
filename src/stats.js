@@ -3,7 +3,7 @@
 const { defaultOptions } = require("./utils");
 
 const defaultGetStatsOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/stats"),
 };
 
 function getStats(customOptions = {}) {

@@ -3,7 +3,7 @@
 const { defaultOptions } = require("./utils");
 
 const defaultConvertOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/skyfile"),
 };
 
 function convert(srcSiaPath, destSiaPath, customOptions = {}) {

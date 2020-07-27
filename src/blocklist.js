@@ -3,11 +3,11 @@
 const { defaultOptions } = require("./utils");
 
 const defaultGetBlocklistOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/blocklist"),
 };
 
 const defaultUpdateBlocklistOptions = {
-  ...defaultOptions,
+  ...defaultOptions("/skynet/blocklist"),
 };
 
 function getBlocklist(customOptions = {}) {
