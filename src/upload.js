@@ -5,14 +5,15 @@ const FormData = require("form-data");
 const fs = require("fs");
 const p = require("path");
 
-const { walkDirectory, uriSkynetPrefix, trimTrailingSlash } = require("./utils");
+const { defaultOptions, makeUrl, walkDirectory, uriSkynetPrefix } = require("./utils");
 
 const defaultUploadOptions = {
-  portalUrl: "https://siasky.net",
-  portalUploadPath: "/skynet/skyfile",
+  ...defaultOptions("/skynet/skyfile"),
   portalFileFieldname: "file",
   portalDirectoryFileFieldname: "files[]",
   customFilename: "",
+  // TODO:
+  // customDirname: "",
   dryRun: false,
 };
 
@@ -24,13 +25,13 @@ function uploadFile(path, customOptions = {}) {
   formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
 
   // Form the URL.
-  let url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}`;
-
-  if (opts.dryRun) url += "?dryrun=true";
+  const url = makeUrl(opts.portalUrl, opts.endpointPath);
+  const params = {};
+  if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
     axios
-      .post(url, formData, { headers: formData.getHeaders() })
+      .post(url, formData, { headers: formData.getHeaders(), params: params })
       .then((response) => {
         resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
@@ -64,15 +65,14 @@ function uploadDirectory(path, customOptions = {}) {
   }
 
   // Form the URL.
-  let url = `${trimTrailingSlash(opts.portalUrl)}${trimTrailingSlash(opts.portalUploadPath)}?filename=${
-    opts.customFilename || path
-  }`;
+  const url = makeUrl(opts.portalUrl, opts.endpointPath);
+  const params = { filename: opts.customFilename || path };
 
-  if (opts.dryRun) url += "&dryrun=true";
+  if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
     axios
-      .post(url, formData, { headers: formData.getHeaders() })
+      .post(url, formData, { headers: formData.getHeaders(), params: params })
       .then((response) => {
         resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
@@ -82,4 +82,4 @@ function uploadDirectory(path, customOptions = {}) {
   });
 }
 
-module.exports = { defaultUploadOptions, uploadFile, uploadDirectory };
+module.exports = { uploadFile, uploadDirectory };

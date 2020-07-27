@@ -1,7 +1,7 @@
 const axios = require("axios");
 const tmp = require("tmp");
 
-const { downloadFile } = require("./download");
+const { downloadFile } = require("../index");
 
 jest.mock("axios");
 
@@ -26,10 +26,10 @@ describe("download", () => {
   it("should use custom options if defined", () => {
     const tmpFile = tmp.fileSync();
     downloadFile(tmpFile.name, skylink, {
-      portalUrl: "localhost",
+      portalUrl: "http://localhost",
     });
 
-    expect(axios.get).toHaveBeenCalledWith(`localhost/${skylink}`, { responseType: "stream" });
+    expect(axios.get).toHaveBeenCalledWith(`http://localhost/${skylink}`, { responseType: "stream" });
     tmpFile.removeCallback();
   });
 });

@@ -3,16 +3,17 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const { trimTrailingSlash, trimSiaPrefix } = require("./utils");
+const { defaultOptions, makeUrl, trimSiaPrefix } = require("./utils");
 
 const defaultDownloadOptions = {
-  portalUrl: "https://siasky.net",
+  ...defaultOptions("/"),
 };
 
 function downloadFile(path, skylink, customOptions = {}) {
   const opts = { ...defaultDownloadOptions, ...customOptions };
 
-  const url = `${trimTrailingSlash(opts.portalUrl)}/${trimSiaPrefix(skylink)}`;
+  skylink = trimSiaPrefix(skylink);
+  let url = makeUrl(opts.portalUrl, opts.endpointPath, skylink);
 
   const writer = fs.createWriteStream(path);
 
@@ -30,4 +31,4 @@ function downloadFile(path, skylink, customOptions = {}) {
   });
 }
 
-module.exports = { defaultDownloadOptions, downloadFile };
+module.exports = { downloadFile };
