@@ -13,8 +13,7 @@ function downloadFile(path, skylink, customOptions = {}) {
   const opts = { ...defaultDownloadOptions, ...customOptions };
 
   skylink = trimSiaPrefix(skylink);
-  let url = makeUrl(opts.portalUrl, opts.endpointPath);
-  url = new URL(skylink, url).toString();
+  let url = makeUrl(opts.portalUrl, opts.endpointPath, skylink);
 
   const writer = fs.createWriteStream(path);
 

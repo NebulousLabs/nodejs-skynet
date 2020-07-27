@@ -17,11 +17,12 @@ function defaultOptions(endpointPath) {
   };
 }
 
-function makeUrl(portalUrl, pathname, query = {}) {
-  const url = new URL(portalUrl);
+function makeUrl() {
+  let args = Array.from(arguments);
+  const url = args.reduce(function (acc, cur) {
+    return new URL(cur, acc);
+  });
 
-  url.pathname = pathname;
-  url.search = new URLSearchParams(query);
   return url.toString();
 }
 

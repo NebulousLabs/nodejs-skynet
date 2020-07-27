@@ -14,6 +14,7 @@ const defaultUploadOptions = {
   customFilename: "",
   // TODO:
   // customDirname: "",
+  dryRun: false,
 };
 
 function uploadFile(path, customOptions = {}) {
@@ -25,10 +26,12 @@ function uploadFile(path, customOptions = {}) {
 
   // Form the URL.
   const url = makeUrl(opts.portalUrl, opts.endpointPath);
+  const params = {};
+  if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
     axios
-      .post(url, formData, { headers: formData.getHeaders() })
+      .post(url, formData, { headers: formData.getHeaders(), params: params })
       .then((response) => {
         resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
@@ -62,11 +65,14 @@ function uploadDirectory(path, customOptions = {}) {
   }
 
   // Form the URL.
-  const url = makeUrl(opts.portalUrl, opts.endpointPath, { filename: opts.customFilename || path });
+  const url = makeUrl(opts.portalUrl, opts.endpointPath);
+  const params = { filename: opts.customFilename || path };
+
+  if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
     axios
-      .post(url, formData, { headers: formData.getHeaders() })
+      .post(url, formData, { headers: formData.getHeaders(), params: params })
       .then((response) => {
         resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
