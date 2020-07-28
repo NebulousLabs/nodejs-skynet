@@ -12,10 +12,14 @@ const defaultUpdatePortalsOptions = {
 
 function getPortals(customOptions = {}) {
   const opts = { ...defaultGetPortalsOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 function updatePortals(customOptions = {}) {
   const opts = { ...defaultUpdatePortalsOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 module.exports = {

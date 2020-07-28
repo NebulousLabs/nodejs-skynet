@@ -14,10 +14,14 @@ const defaultUnpinOptions = {
 
 function pin(skylink, destSiaPath, customOptions = {}) {
   const opts = { ...defaultPinOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 function unpin(siaPath, customOptions = {}) {
   const opts = { ...defaultPinOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 module.exports = {

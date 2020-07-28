@@ -8,6 +8,8 @@ const defaultGetStatsOptions = {
 
 function getStats(customOptions = {}) {
   const opts = { ...defaultGetStatsOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 module.exports = {
