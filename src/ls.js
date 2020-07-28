@@ -10,6 +10,8 @@ const defaultLsOptions = {
 
 function ls(customOptions = {}) {
   const opts = { ...defaultLsOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 module.exports = {

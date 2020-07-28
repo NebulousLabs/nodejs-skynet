@@ -8,6 +8,8 @@ const defaultConvertOptions = {
 
 function convert(srcSiaPath, destSiaPath, customOptions = {}) {
   const opts = { ...defaultConvertOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 module.exports = {

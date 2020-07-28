@@ -12,10 +12,14 @@ const defaultUpdateBlocklistOptions = {
 
 function getBlocklist(customOptions = {}) {
   const opts = { ...defaultGetBlocklistOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 function updateBlocklist(customOptions = {}) {
   const opts = { ...defaultUpdateBlocklistOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 }
 
 module.exports = {

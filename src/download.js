@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 "use strict";
 
 const axios = require("axios");
@@ -6,6 +8,10 @@ const fs = require("fs");
 const { defaultOptions, makeUrl, trimSiaPrefix } = require("./utils");
 
 const defaultDownloadOptions = {
+  ...defaultOptions("/"),
+};
+
+const defaultMetadataOptions = {
   ...defaultOptions("/"),
 };
 
@@ -31,4 +37,10 @@ function downloadFile(path, skylink, customOptions = {}) {
   });
 }
 
-module.exports = { downloadFile };
+function metadata(skylink, customOptions = {}) {
+  const opts = { ...defaultMetadataOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
+}
+
+module.exports = { downloadFile, metadata };
