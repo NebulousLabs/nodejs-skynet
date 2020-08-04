@@ -2,6 +2,7 @@
 
 const p = require("path");
 const fs = require("fs");
+const urljoin = require("url-join");
 
 const defaultPortalUrl = "https://siasky.net";
 
@@ -17,13 +18,14 @@ function defaultOptions(endpointPath) {
   };
 }
 
+/**
+ * Properly joins paths together to create a URL.
+ */
 function makeUrl() {
   let args = Array.from(arguments);
-  const url = args.reduce(function (acc, cur) {
-    return new URL(cur, acc);
+  return args.reduce(function (acc, cur) {
+    return urljoin(acc, cur);
   });
-
-  return url.toString();
 }
 
 function walkDirectory(path, out) {
