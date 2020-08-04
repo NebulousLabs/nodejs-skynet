@@ -12,24 +12,40 @@ describe("download", () => {
   const body = "asdf";
 
   beforeEach(() => {
-    axios.get.mockResolvedValue({ data: { body, pipe: function () {} } });
+    axios.mockResolvedValue({ data: { body, pipe: function () {} } });
   });
 
   it("should send get request to default portal", () => {
     const tmpFile = tmp.fileSync();
+
     downloadFile(tmpFile.name, skylink);
 
-    expect(axios.get).toHaveBeenCalledWith(`${portalUrl}/${skylink}`, { responseType: "stream" });
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `${portalUrl}/${skylink}`,
+        method: "get",
+        responseType: "stream",
+      })
+    );
+
     tmpFile.removeCallback();
   });
 
   it("should use custom options if defined", () => {
     const tmpFile = tmp.fileSync();
+
     downloadFile(tmpFile.name, skylink, {
       portalUrl: "http://localhost",
     });
 
-    expect(axios.get).toHaveBeenCalledWith(`http://localhost/${skylink}`, { responseType: "stream" });
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `http://localhost/${skylink}`,
+        method: "get",
+        responseType: "stream",
+      })
+    );
+
     tmpFile.removeCallback();
   });
 });
