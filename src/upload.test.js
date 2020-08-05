@@ -90,7 +90,7 @@ describe("uploadFile", () => {
 });
 
 describe("uploadDirectory", () => {
-  const filename = "testdata";
+  const dirname = "testdata";
   const directory = ["file1.txt", "file2.txt", "dir1/file3.txt"];
 
   beforeEach(() => {
@@ -98,7 +98,7 @@ describe("uploadDirectory", () => {
   });
 
   it("should send post request to default portal", () => {
-    uploadDirectory(filename);
+    uploadDirectory(dirname);
 
     for (const file of directory) {
       expect(axios).toHaveBeenCalledWith(
@@ -110,18 +110,18 @@ describe("uploadDirectory", () => {
             ]),
           }),
           headers: expect.anything(),
-          params: { filename: filename },
+          params: { filename: dirname },
         })
       );
     }
   });
 
   it("should use custom options if defined", () => {
-    uploadDirectory(filename, {
+    uploadDirectory(dirname, {
       portalUrl: "http://localhost",
       endpointPath: "/skynet/file",
       portalDirectoryFileFieldname: "filetest",
-      customFilename: "testpath",
+      customDirname: "testpath",
       dryRun: true,
     });
 
@@ -145,13 +145,13 @@ describe("uploadDirectory", () => {
   });
 
   it("should return single skylink on success", async () => {
-    const data = await uploadDirectory(filename);
+    const data = await uploadDirectory(dirname);
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
 
   it("should return single skylink on success with dryRun", async () => {
-    const data = await uploadDirectory(filename, { dryRun: true });
+    const data = await uploadDirectory(dirname, { dryRun: true });
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });

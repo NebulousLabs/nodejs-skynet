@@ -11,8 +11,7 @@ const defaultUploadOptions = {
   portalFileFieldname: "file",
   portalDirectoryFileFieldname: "files[]",
   customFilename: "",
-  // TODO:
-  // customDirname: "",
+  customDirname: "",
   dryRun: false,
 };
 
@@ -20,8 +19,8 @@ function uploadFile(path, customOptions = {}) {
   const opts = { ...defaultUploadOptions, ...customOptions };
 
   const formData = new FormData();
-  const options = opts.customFilename ? { filename: opts.customFilename } : {};
-  formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
+  const filename = opts.customFilename ? opts.customFilename : "";
+  formData.append(opts.portalFileFieldname, fs.createReadStream(path), filename);
 
   const params = {};
   if (opts.dryRun) params.dryrun = true;
@@ -61,12 +60,15 @@ function uploadDirectory(path, customOptions = {}) {
   basepath = p.normalize(basepath);
 
   for (const file of walkDirectory(path)) {
-    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), {
-      filepath: file.replace(basepath, ""),
-    });
+    // Remove the dir path from the start of the filename if it exists.
+    let filename = file;
+    if (file.startsWith(basepath)) {
+      filename = file.replace(basepath, "");
+    }
+    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: filename });
   }
 
-  const params = { filename: opts.customFilename || path };
+  const params = { filename: opts.customDirname || path };
 
   if (opts.dryRun) params.dryrun = true;
 
