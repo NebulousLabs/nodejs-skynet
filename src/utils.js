@@ -33,7 +33,7 @@ function defaultOptions(endpointPath) {
  * @param {string} [config.responseType=""] - The type of data that the server will respond with.
  */
 function executeRequest(config) {
-  let url = makeUrl(config.portalUrl, config.endpointPath, config.extraPath ?? "");
+  let url = makeUrl(config.portalUrl, config.endpointPath, config.extraPath ? config.extraPath : "");
 
   return axios({
     url: url,
