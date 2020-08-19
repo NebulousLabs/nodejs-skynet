@@ -1,7 +1,7 @@
 "use strict";
 
 const axios = require("axios");
-const p = require("path");
+const path = require("path");
 const fs = require("fs");
 const urljoin = require("url-join");
 
@@ -33,10 +33,10 @@ function defaultOptions(endpointPath) {
  * @param {string} [config.responseType=""] - The type of data that the server will respond with.
  */
 function executeRequest(config) {
-  let url = makeUrl(config.portalUrl, config.endpointPath, config.extraPath ? config.extraPath : "");
+  const url = makeUrl(config.portalUrl, config.endpointPath, config.extraPath ? config.extraPath : "");
 
   return axios({
-    url: url,
+    url,
     method: config.method,
     data: config.data,
     params: config.params,
@@ -64,14 +64,14 @@ function makeUrl() {
   });
 }
 
-function walkDirectory(path, out) {
+function walkDirectory(filepath, out) {
   let files = [];
-  if (!fs.existsSync(path)) {
+  if (!fs.existsSync(filepath)) {
     return files;
   }
 
-  for (const subpath of fs.readdirSync(path)) {
-    const fullpath = p.join(path, subpath);
+  for (const subpath of fs.readdirSync(filepath)) {
+    const fullpath = path.join(filepath, subpath);
     if (fs.statSync(fullpath).isDirectory()) {
       files = files.concat(walkDirectory(fullpath, out));
       continue;
