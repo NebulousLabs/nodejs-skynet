@@ -1,19 +1,17 @@
 "use strict";
 
-const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
 const p = require("path");
 
-const { defaultOptions, makeUrl, walkDirectory, uriSkynetPrefix } = require("./utils");
+const { defaultOptions, executeRequest, walkDirectory, uriSkynetPrefix } = require("./utils");
 
 const defaultUploadOptions = {
   ...defaultOptions("/skynet/skyfile"),
   portalFileFieldname: "file",
   portalDirectoryFileFieldname: "files[]",
   customFilename: "",
-  // TODO:
-  // customDirname: "",
+  customDirname: "",
   dryRun: false,
 };
 
@@ -21,17 +19,20 @@ function uploadFile(path, customOptions = {}) {
   const opts = { ...defaultUploadOptions, ...customOptions };
 
   const formData = new FormData();
-  const options = opts.customFilename ? { filename: opts.customFilename } : {};
-  formData.append(opts.portalFileFieldname, fs.createReadStream(path), options);
+  const filename = opts.customFilename ? opts.customFilename : "";
+  formData.append(opts.portalFileFieldname, fs.createReadStream(path), filename);
 
-  // Form the URL.
-  const url = makeUrl(opts.portalUrl, opts.endpointPath);
   const params = {};
   if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
-    axios
-      .post(url, formData, { headers: formData.getHeaders(), params: params })
+    executeRequest({
+      ...opts,
+      method: "post",
+      data: formData,
+      headers: formData.getHeaders(),
+      params: params,
+    })
       .then((response) => {
         resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
@@ -59,20 +60,26 @@ function uploadDirectory(path, customOptions = {}) {
   basepath = p.normalize(basepath);
 
   for (const file of walkDirectory(path)) {
-    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), {
-      filepath: file.replace(basepath, ""),
-    });
+    // Remove the dir path from the start of the filename if it exists.
+    let filename = file;
+    if (file.startsWith(basepath)) {
+      filename = file.replace(basepath, "");
+    }
+    formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: filename });
   }
 
-  // Form the URL.
-  const url = makeUrl(opts.portalUrl, opts.endpointPath);
-  const params = { filename: opts.customFilename || path };
+  const params = { filename: opts.customDirname || path };
 
   if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
-    axios
-      .post(url, formData, { headers: formData.getHeaders(), params: params })
+    executeRequest({
+      ...opts,
+      method: "post",
+      data: formData,
+      headers: formData.getHeaders(),
+      params: params,
+    })
       .then((response) => {
         resolve(`${uriSkynetPrefix}${response.data.skylink}`);
       })
