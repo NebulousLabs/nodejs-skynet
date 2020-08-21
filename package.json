@@ -33,7 +33,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "axios": "0.19.2",
+    "axios": "0.20.0",
     "form-data": "3.0.0",
     "url-join": "^4.0.1"
   },
