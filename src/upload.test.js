@@ -1,12 +1,12 @@
 const axios = require("axios");
 
-const { uploadDirectory, uploadFile } = require("../index");
-const { uriSkynetPrefix } = require("../index");
+const { SkynetClient, defaultPortalUrl, uriSkynetPrefix } = require("../index");
 
 jest.mock("axios");
 
-const portalUrl = "https://siasky.net";
+const portalUrl = defaultPortalUrl();
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
+const client = new SkynetClient();
 
 describe("uploadFile", () => {
   const filename = "testdata/file1.txt";
@@ -16,7 +16,7 @@ describe("uploadFile", () => {
   });
 
   it("should send post request to default portal", () => {
-    uploadFile(filename);
+    client.uploadFile(filename);
 
     expect(axios).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -33,7 +33,7 @@ describe("uploadFile", () => {
   });
 
   it("should use custom upload options if defined", () => {
-    uploadFile(filename, {
+    client.uploadFile(filename, {
       portalUrl: "https://localhost",
       endpointPath: "/skynet/file",
       portalFileFieldname: "filetest",
@@ -55,11 +55,10 @@ describe("uploadFile", () => {
     );
   });
 
-  it("should use custom connection options if defined", () => {
-    uploadFile(filename, {
-      APIKey: "foobar",
-      customUserAgent: "Sia-Agent",
-    });
+  it("should use custom connection options if defined on the client", () => {
+    const client = new SkynetClient("", { APIKey: "foobar", customUserAgent: "Sia-Agent" });
+
+    client.uploadFile(filename);
 
     expect(axios).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -76,14 +75,34 @@ describe("uploadFile", () => {
     );
   });
 
+  it("should use custom connection options if defined on the API call", () => {
+    const client = new SkynetClient("", { APIKey: "foobar", customUserAgent: "Sia-Agent" });
+
+    client.uploadFile(filename, { APIKey: "barfoo", customUserAgent: "Sia-Agent-2" });
+
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `${portalUrl}/skynet/skyfile`,
+        data: expect.objectContaining({
+          _streams: expect.arrayContaining([
+            expect.stringContaining(`Content-Disposition: form-data; name="file"; filename="file1.txt"`),
+          ]),
+        }),
+        auth: { username: "", password: "barfoo" },
+        headers: { "User-Agent": "Sia-Agent-2" },
+        params: expect.anything(),
+      })
+    );
+  });
+
   it("should return skylink on success", async () => {
-    const data = await uploadFile(filename);
+    const data = await client.uploadFile(filename);
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
 
   it("should return skylink on success with dryRun", async () => {
-    const data = await uploadFile(filename, { dryRun: true });
+    const data = await client.uploadFile(filename, { dryRun: true });
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
@@ -98,7 +117,7 @@ describe("uploadDirectory", () => {
   });
 
   it("should send post request to default portal", () => {
-    uploadDirectory(dirname);
+    client.uploadDirectory(dirname);
 
     for (const file of directory) {
       expect(axios).toHaveBeenCalledWith(
@@ -117,7 +136,7 @@ describe("uploadDirectory", () => {
   });
 
   it("should use custom options if defined", () => {
-    uploadDirectory(dirname, {
+    client.uploadDirectory(dirname, {
       portalUrl: "http://localhost",
       endpointPath: "/skynet/file",
       portalDirectoryFileFieldname: "filetest",
@@ -145,13 +164,13 @@ describe("uploadDirectory", () => {
   });
 
   it("should return single skylink on success", async () => {
-    const data = await uploadDirectory(dirname);
+    const data = await client.uploadDirectory(dirname);
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });
 
   it("should return single skylink on success with dryRun", async () => {
-    const data = await uploadDirectory(dirname, { dryRun: true });
+    const data = await client.uploadDirectory(dirname, { dryRun: true });
 
     expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
   });

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 const { defaultOptions } = require("./utils");
+const { SkynetClient } = require("./client");
 
 const defaultLsOptions = {
   ...defaultOptions(""),
@@ -8,12 +9,8 @@ const defaultLsOptions = {
   endpointPathLsFile: "/renter/file",
 };
 
-function ls(customOptions = {}) {
-  const opts = { ...defaultLsOptions, ...customOptions };
+SkynetClient.prototype.ls = function (customOptions = {}) {
+  const opts = { ...defaultLsOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
-
-module.exports = {
-  ls,
 };

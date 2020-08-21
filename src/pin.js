@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 const { defaultOptions } = require("./utils");
+const { SkynetClient } = require("./client");
 
 const defaultPinOptions = {
   ...defaultOptions("/skynet/pin"),
@@ -12,19 +13,14 @@ const defaultUnpinOptions = {
   endpointPathUnpinFile: "/renter/delete",
 };
 
-function pin(skylink, destSiaPath, customOptions = {}) {
-  const opts = { ...defaultPinOptions, ...customOptions };
+SkynetClient.prototype.pin = function (skylink, destSiaPath, customOptions = {}) {
+  const opts = { ...defaultPinOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
+};
 
-function unpin(siaPath, customOptions = {}) {
-  const opts = { ...defaultPinOptions, ...customOptions };
+SkynetClient.prototype.unpin = function (siaPath, customOptions = {}) {
+  const opts = { ...defaultPinOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
-
-module.exports = {
-  pin,
-  unpin,
 };

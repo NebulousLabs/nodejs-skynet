@@ -1,12 +1,13 @@
 const axios = require("axios");
 const tmp = require("tmp");
 
-const { downloadFile } = require("../index");
+const { SkynetClient, defaultPortalUrl } = require("../index");
 
 jest.mock("axios");
 
-const portalUrl = "https://siasky.net";
+const portalUrl = defaultPortalUrl();
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
+const client = new SkynetClient();
 
 describe("download", () => {
   const body = "asdf";
@@ -18,7 +19,7 @@ describe("download", () => {
   it("should send get request to default portal", () => {
     const tmpFile = tmp.fileSync();
 
-    downloadFile(tmpFile.name, skylink);
+    client.downloadFile(tmpFile.name, skylink);
 
     expect(axios).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -34,7 +35,7 @@ describe("download", () => {
   it("should use custom options if defined", () => {
     const tmpFile = tmp.fileSync();
 
-    downloadFile(tmpFile.name, skylink, {
+    client.downloadFile(tmpFile.name, skylink, {
       portalUrl: "http://localhost",
     });
 
