@@ -6,6 +6,7 @@ jest.mock("axios");
 
 const portalUrl = defaultPortalUrl();
 const skylink = "XABvi7JtJbQSMAcDwnUnmp2FKDPjg8_tTTFP4BwMSxVdEg";
+const sialink = `${uriSkynetPrefix}${skylink}`;
 const client = new SkynetClient();
 
 describe("uploadFile", () => {
@@ -98,13 +99,13 @@ describe("uploadFile", () => {
   it("should return skylink on success", async () => {
     const data = await client.uploadFile(filename);
 
-    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
+    expect(data).toEqual(sialink);
   });
 
   it("should return skylink on success with dryRun", async () => {
     const data = await client.uploadFile(filename, { dryRun: true });
 
-    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
+    expect(data).toEqual(sialink);
   });
 });
 
@@ -166,12 +167,12 @@ describe("uploadDirectory", () => {
   it("should return single skylink on success", async () => {
     const data = await client.uploadDirectory(dirname);
 
-    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
+    expect(data).toEqual(sialink);
   });
 
   it("should return single skylink on success with dryRun", async () => {
     const data = await client.uploadDirectory(dirname, { dryRun: true });
 
-    expect(data).toEqual(`${uriSkynetPrefix}${skylink}`);
+    expect(data).toEqual(sialink);
   });
 });
