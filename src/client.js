@@ -49,3 +49,14 @@ class SkynetClient {
 }
 
 module.exports = { SkynetClient };
+
+// Get the following files to run or the client's methods won't be defined.
+require("./blocklist.js");
+require("./convert.js");
+require("./download.js");
+require("./encryption.js");
+require("./list.js");
+require("./pin.js");
+require("./portals.js");
+require("./stats.js");
+require("./upload.js");
