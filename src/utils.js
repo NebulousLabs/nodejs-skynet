@@ -4,8 +4,14 @@ const path = require("path");
 const fs = require("fs");
 const urljoin = require("url-join");
 
+/**
+ * The default URL of the Skynet portal to use in the absence of configuration.
+ */
 const defaultSkynetPortalUrl = "https://siasky.net";
 
+/**
+ * The URI prefix for Skynet.
+ */
 const uriSkynetPrefix = "sia://";
 
 function defaultOptions(endpointPath) {
@@ -20,6 +26,9 @@ function defaultOptions(endpointPath) {
 
 // TODO: This will be smarter. See
 // https://github.com/NebulousLabs/skynet-docs/issues/21.
+/**
+ * Selects the default portal URL to use when initializing a client. May involve network queries to several candidate portals.
+ */
 function defaultPortalUrl() {
   return defaultSkynetPortalUrl;
 }
