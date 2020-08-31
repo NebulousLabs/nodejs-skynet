@@ -11,7 +11,7 @@ const defaultDownloadOptions = {
   ...defaultOptions("/"),
 };
 
-const defaultMetadataOptions = {
+const defaultGetMetadataOptions = {
   ...defaultOptions("/"),
 };
 
@@ -40,8 +40,8 @@ SkynetClient.prototype.downloadFile = function (path, skylink, customOptions = {
   });
 };
 
-SkynetClient.prototype.metadata = function (skylink, customOptions = {}) {
-  const opts = { ...defaultMetadataOptions, ...this.customOptions, ...customOptions };
+SkynetClient.prototype.getMetadata = function (skylink, customOptions = {}) {
+  const opts = { ...defaultGetMetadataOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
 };

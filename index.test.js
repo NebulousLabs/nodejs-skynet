@@ -6,7 +6,7 @@ describe("SkynetClient", () => {
 
     // Download
     expect(client).toHaveProperty("downloadFile");
-    expect(client).toHaveProperty("metadata");
+    expect(client).toHaveProperty("getMetadata");
 
     // Encryption
     expect(client).toHaveProperty("addSkykey");
