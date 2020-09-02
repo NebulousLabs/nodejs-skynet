@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 const { defaultOptions } = require("./utils");
+const { SkynetClient } = require("./client");
 
 const defaultAddSkykeyOptions = {
   ...defaultOptions("/skynet/addskykey"),
@@ -18,40 +19,32 @@ const defaultGetSkykeysOptions = {
   ...defaultOptions("/skynet/skykeys"),
 };
 
-function addSkykey(skykey, customOptions = {}) {
-  const opts = { ...defaultAddSkykeyOptions, ...customOptions };
+SkynetClient.prototype.addSkykey = function (skykey, customOptions = {}) {
+  const opts = { ...defaultAddSkykeyOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
+};
 
-function createSkykey(skykeyName, skykeyType, customOptions = {}) {
-  const opts = { ...defaultCreateSkykeyOptions, ...customOptions };
-
-  throw new Error("Unimplemented");
-}
-
-function getSkykeyById(skykeyId, customOptions = {}) {
-  const opts = { ...defaultGetSkykeyOptions, ...customOptions };
+SkynetClient.prototype.createSkykey = function (skykeyName, skykeyType, customOptions = {}) {
+  const opts = { ...defaultCreateSkykeyOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
+};
 
-function getSkykeyByName(skykeyName, customOptions = {}) {
-  const opts = { ...defaultGetSkykeyOptions, ...customOptions };
-
-  throw new Error("Unimplemented");
-}
-
-function getSkykeys(customOptions = {}) {
-  const opts = { ...defaultGetSkykeysOptions, ...customOptions };
+SkynetClient.prototype.getSkykeyById = function (skykeyId, customOptions = {}) {
+  const opts = { ...defaultGetSkykeyOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
+};
 
-module.exports = {
-  addSkykey,
-  createSkykey,
-  getSkykeyById,
-  getSkykeyByName,
-  getSkykeys,
+SkynetClient.prototype.getSkykeyByName = function (skykeyName, customOptions = {}) {
+  const opts = { ...defaultGetSkykeyOptions, ...this.customOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
+};
+
+SkynetClient.prototype.getSkykeys = function (customOptions = {}) {
+  const opts = { ...defaultGetSkykeysOptions, ...this.customOptions, ...customOptions };
+
+  throw new Error("Unimplemented");
 };

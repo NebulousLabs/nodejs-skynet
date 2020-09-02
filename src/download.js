@@ -4,25 +4,26 @@
 
 const fs = require("fs");
 
-const { defaultOptions, executeRequest, trimSiaPrefix } = require("./utils");
+const { defaultOptions, trimSiaPrefix } = require("./utils");
+const { SkynetClient } = require("./client");
 
 const defaultDownloadOptions = {
   ...defaultOptions("/"),
 };
 
-const defaultMetadataOptions = {
+const defaultGetMetadataOptions = {
   ...defaultOptions("/"),
 };
 
-function downloadFile(path, skylink, customOptions = {}) {
-  const opts = { ...defaultDownloadOptions, ...customOptions };
+SkynetClient.prototype.downloadFile = function (path, skylink, customOptions = {}) {
+  const opts = { ...defaultDownloadOptions, ...this.customOptions, ...customOptions };
 
   skylink = trimSiaPrefix(skylink);
 
   const writer = fs.createWriteStream(path);
 
   return new Promise((resolve, reject) => {
-    executeRequest({
+    this.executeRequest({
       ...opts,
       method: "get",
       extraPath: skylink,
@@ -37,12 +38,10 @@ function downloadFile(path, skylink, customOptions = {}) {
         reject(error);
       });
   });
-}
+};
 
-function metadata(skylink, customOptions = {}) {
-  const opts = { ...defaultMetadataOptions, ...customOptions };
+SkynetClient.prototype.getMetadata = function (skylink, customOptions = {}) {
+  const opts = { ...defaultGetMetadataOptions, ...this.customOptions, ...customOptions };
 
   throw new Error("Unimplemented");
-}
-
-module.exports = { downloadFile, metadata };
+};

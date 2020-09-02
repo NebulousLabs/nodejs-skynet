@@ -4,7 +4,8 @@ const FormData = require("form-data");
 const fs = require("fs");
 const p = require("path");
 
-const { defaultOptions, executeRequest, walkDirectory, uriSkynetPrefix } = require("./utils");
+const { defaultOptions, walkDirectory, uriSkynetPrefix } = require("./utils");
+const { SkynetClient } = require("./client");
 
 const defaultUploadOptions = {
   ...defaultOptions("/skynet/skyfile"),
@@ -15,8 +16,8 @@ const defaultUploadOptions = {
   dryRun: false,
 };
 
-function uploadFile(path, customOptions = {}) {
-  const opts = { ...defaultUploadOptions, ...customOptions };
+SkynetClient.prototype.uploadFile = function (path, customOptions = {}) {
+  const opts = { ...defaultUploadOptions, ...this.customOptions, ...customOptions };
 
   const formData = new FormData();
   const filename = opts.customFilename ? opts.customFilename : "";
@@ -26,7 +27,7 @@ function uploadFile(path, customOptions = {}) {
   if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
-    executeRequest({
+    this.executeRequest({
       ...opts,
       method: "post",
       data: formData,
@@ -40,10 +41,10 @@ function uploadFile(path, customOptions = {}) {
         reject(error);
       });
   });
-}
+};
 
-function uploadDirectory(path, customOptions = {}) {
-  const opts = { ...defaultUploadOptions, ...customOptions };
+SkynetClient.prototype.uploadDirectory = function (path, customOptions = {}) {
+  const opts = { ...defaultUploadOptions, ...this.customOptions, ...customOptions };
 
   // Check if there is a directory at given path.
   const stat = fs.statSync(path);
@@ -73,7 +74,7 @@ function uploadDirectory(path, customOptions = {}) {
   if (opts.dryRun) params.dryrun = true;
 
   return new Promise((resolve, reject) => {
-    executeRequest({
+    this.executeRequest({
       ...opts,
       method: "post",
       data: formData,
@@ -87,6 +88,4 @@ function uploadDirectory(path, customOptions = {}) {
         reject(error);
       });
   });
-}
-
-module.exports = { uploadFile, uploadDirectory };
+};
