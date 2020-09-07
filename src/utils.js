@@ -62,7 +62,10 @@ function walkDirectory(filepath, out) {
 }
 
 function trimSiaPrefix(str) {
-  return str.replace(uriSkynetPrefix, "");
+  if (str.startsWith(uriSkynetPrefix)) {
+    return str.slice(uriSkynetPrefix.length);
+  }
+  return str;
 }
 
 module.exports = {

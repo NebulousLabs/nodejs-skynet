@@ -55,10 +55,12 @@ SkynetClient.prototype.uploadDirectory = function (path, customOptions = {}) {
   const formData = new FormData();
   path = p.normalize(path);
   let basepath = path;
-  if (basepath != "/") {
+  // Ensure the basepath ends in a slash.
+  if (!basepath.endsWith("/")) {
     basepath += "/";
+    // Normalize the slash on non-Unix filesystems.
+    basepath = p.normalize(basepath);
   }
-  basepath = p.normalize(basepath);
 
   for (const file of walkDirectory(path)) {
     // Remove the dir path from the start of the filename if it exists.
@@ -69,7 +71,11 @@ SkynetClient.prototype.uploadDirectory = function (path, customOptions = {}) {
     formData.append(opts.portalDirectoryFileFieldname, fs.createReadStream(file), { filepath: filename });
   }
 
-  const params = { filename: opts.customDirname || path };
+  let filename = opts.customDirname || path;
+  if (filename.startsWith("/")) {
+    filename = filename.slice(1);
+  }
+  const params = { filename };
 
   if (opts.dryRun) params.dryrun = true;
 
