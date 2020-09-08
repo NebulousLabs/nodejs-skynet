@@ -141,7 +141,7 @@ describe("uploadDirectory", () => {
       portalUrl: "http://localhost",
       endpointPath: "/skynet/file",
       portalDirectoryFileFieldname: "filetest",
-      customDirname: "testpath",
+      customDirname: "/testpath",
       dryRun: true,
     });
 
