@@ -1,4 +1,6 @@
 const axios = require("axios");
+const fs = require("fs");
+const tmp = require("tmp");
 
 const { SkynetClient, defaultPortalUrl, uriSkynetPrefix } = require("../index");
 
@@ -70,7 +72,7 @@ describe("uploadFile", () => {
           ]),
         }),
         auth: { username: "", password: "foobar" },
-        headers: { "User-Agent": "Sia-Agent" },
+        headers: expect.objectContaining({ "User-Agent": "Sia-Agent" }),
         params: expect.anything(),
       })
     );
@@ -90,10 +92,19 @@ describe("uploadFile", () => {
           ]),
         }),
         auth: { username: "", password: "barfoo" },
-        headers: { "User-Agent": "Sia-Agent-2" },
+        headers: expect.objectContaining({ "User-Agent": "Sia-Agent-2" }),
         params: expect.anything(),
       })
     );
+  });
+
+  it("should upload tmp files", async () => {
+    const file = tmp.fileSync({ postfix: ".json" });
+    fs.writeFileSync(file.fd, JSON.stringify("testing"));
+
+    const data = await client.uploadFile(file.name);
+
+    expect(data).toEqual(sialink);
   });
 
   it("should return skylink on success", async () => {
