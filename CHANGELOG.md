@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1]
+
+### Changed
+
+- Remove leading slash in directory path before uploading an absolute path.
+- Fixed length limits for request bodies.
+- Fixed upload errors due to missing headers.
+
 ## [2.0.0]
 
 ### Added
