@@ -29,6 +29,9 @@ class SkynetClient {
   executeRequest(config) {
     const url = makeUrl(config.portalUrl, config.endpointPath, config.extraPath ? config.extraPath : "");
 
+    if (!config.headers) {
+      config.headers = {};
+    }
     if (config.customUserAgent) {
       config.headers["User-Agent"] = config.customUserAgent;
     }

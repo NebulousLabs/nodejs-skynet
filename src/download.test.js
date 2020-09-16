@@ -49,4 +49,21 @@ describe("download", () => {
 
     tmpFile.removeCallback();
   });
+
+  it("should use custom connection options if defined on the client", () => {
+    const tmpFile = tmp.fileSync();
+    const client = new SkynetClient("", { APIKey: "foobar", customUserAgent: "Sia-Agent" });
+
+    client.downloadFile(tmpFile.name, skylink, { APIKey: "barfoo", customUserAgent: "Sia-Agent-2" });
+
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `${portalUrl}/${skylink}`,
+        auth: { username: "", password: "barfoo" },
+        headers: expect.objectContaining({ "User-Agent": "Sia-Agent-2" }),
+      })
+    );
+
+    tmpFile.removeCallback();
+  });
 });

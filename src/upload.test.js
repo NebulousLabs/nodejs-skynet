@@ -26,10 +26,12 @@ describe("uploadFile", () => {
         url: `${portalUrl}/skynet/skyfile`,
         data: expect.objectContaining({
           _streams: expect.arrayContaining([
-            expect.stringContaining(`Content-Disposition: form-data; name="file"; filename="file1.txt"`),
+            expect.stringContaining(
+              'Content-Disposition: form-data; name="file"; filename="file1.txt"\r\nContent-Type: text/plain'
+            ),
           ]),
         }),
-        headers: expect.anything(),
+        headers: expect.objectContaining({ "content-type": expect.stringContaining("multipart/form-data") }),
         params: expect.anything(),
       })
     );
