@@ -23,4 +23,4 @@ yarn add @nebulous/skynet
 
 ## Documentation
 
-For documentation complete with examples, please see [the Skynet SDK docs](https://nebulouslabs.github.io/skynet-docs/?javascript#introduction).
+For documentation complete with examples, please see [the Skynet SDK docs](https://siasky.net/docs/?javascript--node#introduction).
