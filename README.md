@@ -1,6 +1,6 @@
 # Skynet NodeJS SDK
 
-> :warning: This repo has been archived and moved under the new [SkynetHQ](https://github.com/SkynetHQ) repo [here](https://github.com/SkynetHQ/nodejs-skynet)
+> :warning: This repo has been archived and moved under the new [SkynetLabs](https://github.com/SkynetLabs) repo [here](https://github.com/SkynetLabs/nodejs-skynet)
 
 [![Version](https://img.shields.io/github/package-json/v/NebulousLabs/nodejs-skynet)](https://www.npmjs.com/package/@nebulous/skynet)
 [![Build Status](https://img.shields.io/github/workflow/status/NebulousLabs/nodejs-skynet/Pull%20Request)](https://github.com/NebulousLabs/nodejs-skynet/actions)
